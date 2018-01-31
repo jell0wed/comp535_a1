@@ -62,6 +62,14 @@ public class Link {
         return newLink;
     }
 
+    public void send(BaseMessage msg) {
+        try {
+            this.objOut.writeObject(msg);
+        } catch (IOException e) {
+            LOG.error("", e);
+        }
+    }
+
     public void listenForIncomingCommands() {
         while(listen) {
             try {
@@ -75,5 +83,13 @@ public class Link {
 
     public Router getLocalRouter() {
         return this.localRouter;
+    }
+
+    public RouterDescription getFromRouter() {
+        return fromRouter;
+    }
+
+    public RouterDescription getToRouter() {
+        return toRouter;
     }
 }

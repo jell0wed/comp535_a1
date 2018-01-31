@@ -2,12 +2,14 @@ package socs.network.node;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import socs.network.message.HELLOMessage;
 import socs.network.message.SOSPFPacket;
 import socs.network.util.Configuration;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -31,12 +33,14 @@ public class Router {
     public Router(Configuration config) {
         routerDesc.processPortNumber = 50000;
         routerDesc.processIPAddress = "0.0.0.0";
-        routerDesc.simulatedIPAddress = config.getString("socs.network.router.ip");
+        routerDesc.simulatedIPAddress = UUID.randomUUID().toString();
 
         lsd = new LinkStateDatabase(routerDesc);
 
         this.initializeSocket();
         this.listenForIncomingConnection();
+
+        LOG.info("Started router " + routerDesc.simulatedIPAddress);
     }
 
     private void initializeSocket() {
@@ -95,7 +99,7 @@ public class Router {
      * <p/>
      * NOTE: this command should not trigger link database synchronization
      */
-    private void processAttach(String processIP, short processPort,
+    private void processAttach(String processIP, int processPort,
                                String simulatedIP, short weight) {
         RouterDescription targetRouter = new RouterDescription();
         targetRouter.processIPAddress = processIP;
@@ -116,18 +120,10 @@ public class Router {
     private void processStart() {
         // broadcast HELLO to every neighbors
         for(int i = 0; i < this.nextAvailPort; i++) {
-            SOSPFPacket helloPak = new SOSPFPacket();
-            helloPak.srcProcessIP = this.routerDesc.processIPAddress;
-            helloPak.srcProcessPort = this.routerDesc.processPortNumber;
-            helloPak.srcIP = this.routerDesc.simulatedIPAddress;
-            helloPak.dstIP = this.ports[i].toRouter.simulatedIPAddress;
-            helloPak.sospfType = SOSPFPacket.SOSPFPacketType.HELLO;
-            helloPak.routerID = this.ports[i].toRouter.simulatedIPAddress;
-            helloPak.neighborID = this.routerDesc.simulatedIPAddress;
-            helloPak.lsaArray = null;
+            HELLOMessage helloPak = new HELLOMessage();
+
+            this.ports[i].send(helloPak);
         }
-
-
     }
 
     /**
@@ -173,7 +169,7 @@ public class Router {
                     processQuit();
                 } else if (command.startsWith("attach ")) {
                     String[] cmdLine = command.split(" ");
-                    processAttach(cmdLine[1], Short.parseShort(cmdLine[2]),
+                    processAttach(cmdLine[1], Integer.parseInt(cmdLine[2]),
                             cmdLine[3], Short.parseShort(cmdLine[4]));
                 } else if (command.equals("start")) {
                     processStart();
