@@ -15,24 +15,21 @@ public class Link {
     private ObjectOutputStream objOut;
     private ObjectInputStream objIn;
     private Router localRouter;
+    private RouterDescription remoteRouterDesc;
 
-    RouterDescription fromRouter;
-    RouterDescription toRouter;
-
-    private Link(RouterDescription from, RouterDescription to) {
-        this.fromRouter = from;
-        this.toRouter = to;
+    private Link(Router local, RouterDescription toRouter) {
+        this.localRouter = local;
 
         try {
-            this.clientSock = new Socket(this.toRouter.processIPAddress, this.toRouter.processPortNumber);
+            this.clientSock = new Socket(toRouter.processIPAddress, toRouter.processPortNumber);
             this.initializeSocket();
         } catch (IOException e) {
             throw new RuntimeException("Unable to establish connection", e);
         }
     }
 
-    private Link(RouterDescription to, Socket clientSock) {
-        this.toRouter = to;
+    private Link(Router local, Socket clientSock) {
+        this.localRouter = local;
 
         try {
             this.clientSock = clientSock;
@@ -44,26 +41,30 @@ public class Link {
 
     private void initializeSocket() throws IOException {
         this.objOut = new ObjectOutputStream(this.clientSock.getOutputStream());
+        this.objOut.flush();
         this.objIn = new ObjectInputStream(this.clientSock.getInputStream());
-        LOG.debug("Initialized client socket to {}", this.toRouter);
     }
 
+    /* Establish a new link from the local router to an unknown remote router (incoming connection) */
     public static Link incomingConnection(Socket clientSock, Router to) {
-        Link newLink = new Link(to.routerDesc, clientSock);
-        newLink.localRouter = to;
+        Link newLink = new Link(to, clientSock);
 
         return newLink;
     }
 
+    /* Establish a new link from the local router to a known remote router */
     public static Link establishConnection(Router from, RouterDescription to) {
-        Link newLink = new Link(from.routerDesc, to);
-        newLink.localRouter = from;
+        Link newLink = new Link(from, to);
+        newLink.remoteRouterDesc = to;
 
         return newLink;
     }
 
     public void send(BaseMessage msg) {
         try {
+            msg.from = this.localRouter.routerDesc;
+            msg.to = this.remoteRouterDesc;
+
             this.objOut.writeObject(msg);
         } catch (IOException e) {
             LOG.error("", e);
@@ -74,6 +75,12 @@ public class Link {
         while(listen) {
             try {
                 BaseMessage recvMessage = (BaseMessage) this.objIn.readObject();
+
+                // if we still do not know the remote router yet...
+                if(this.remoteRouterDesc == null) {
+                    this.remoteRouterDesc = recvMessage.from;
+                }
+
                 recvMessage.executeMessage(this);
             } catch (IOException | ClassNotFoundException e) {
                 LOG.error("", e);
@@ -83,13 +90,5 @@ public class Link {
 
     public Router getLocalRouter() {
         return this.localRouter;
-    }
-
-    public RouterDescription getFromRouter() {
-        return fromRouter;
-    }
-
-    public RouterDescription getToRouter() {
-        return toRouter;
     }
 }

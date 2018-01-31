@@ -3,7 +3,9 @@ package socs.network.node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RouterDescription {
+import java.io.Serializable;
+
+public class RouterDescription implements Serializable {
     private static final Logger LOG = LoggerFactory.getLogger(RouterDescription.class);
 
     //used to socket communication
@@ -35,5 +37,33 @@ public class RouterDescription {
                 .append(this.simulatedIPAddress)
                 .append(")")
                 .toString();
+    }
+
+    public String getProcessIPAddress() {
+        return processIPAddress;
+    }
+
+    public void setProcessIPAddress(String processIPAddress) {
+        this.processIPAddress = processIPAddress;
+    }
+
+    public int getProcessPortNumber() {
+        return processPortNumber;
+    }
+
+    public void setProcessPortNumber(int processPortNumber) {
+        this.processPortNumber = processPortNumber;
+    }
+
+    public String getSimulatedIPAddress() {
+        return simulatedIPAddress;
+    }
+
+    public void setSimulatedIPAddress(String simulatedIPAddress) {
+        this.simulatedIPAddress = simulatedIPAddress;
+    }
+
+    public void setStatus(RouterStatus status) {
+        this.status = status;
     }
 }

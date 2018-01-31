@@ -9,6 +9,7 @@ import socs.network.util.Configuration;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,20 +21,19 @@ public class Router {
     private ExecutorService connectedPortsThreadPool = Executors.newFixedThreadPool(10);
     private Thread incomingConnectionThread;
     private ServerSocket routerSock;
-    private ObjectOutputStream objOut;
-    private ObjectInputStream objIn;
 
     protected LinkStateDatabase lsd;
     private int nextAvailPort = 0;
     private boolean listen = true;
+    private RouterDescriptionDatabase discoveredRouters = new RouterDescriptionDatabase();
+
     RouterDescription routerDesc = new RouterDescription();
     Link[] ports = new Link[4]; //assuming that all routers are with 4 ports
 
-
-    public Router(Configuration config) {
-        routerDesc.processPortNumber = 50000;
+    public Router(int port, String simulatedIP) {
+        routerDesc.processPortNumber = port;
         routerDesc.processIPAddress = "0.0.0.0";
-        routerDesc.simulatedIPAddress = UUID.randomUUID().toString();
+        routerDesc.simulatedIPAddress = simulatedIP;
 
         lsd = new LinkStateDatabase(routerDesc);
 
@@ -69,6 +69,8 @@ public class Router {
                 }
             }
         });
+
+        this.incomingConnectionThread.start();
     }
 
     /**
@@ -105,11 +107,14 @@ public class Router {
         targetRouter.processIPAddress = processIP;
         targetRouter.processPortNumber = processPort;
         targetRouter.simulatedIPAddress = simulatedIP;
+        targetRouter.status = RouterStatus.INIT;
 
         // create a new link and connect to target router
         Link newLink = Link.establishConnection(this, targetRouter);
         this.ports[this.nextAvailPort] = newLink;
         this.connectedPortsThreadPool.submit(newLink::listenForIncomingCommands);
+
+        this.discoveredRouters.insertDiscoveredRouter(targetRouter);
 
         this.nextAvailPort++;
     }
@@ -150,6 +155,10 @@ public class Router {
      */
     private void processQuit() {
 
+    }
+
+    public RouterDescriptionDatabase getDiscoveredRouters() {
+        return discoveredRouters;
     }
 
     public void terminal() {
