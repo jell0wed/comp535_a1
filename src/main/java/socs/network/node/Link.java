@@ -2,6 +2,7 @@ package socs.network.node;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import socs.network.message.BaseMessage;
 
 import java.io.*;
 import java.net.Socket;
@@ -9,6 +10,7 @@ import java.net.Socket;
 public class Link {
     private static final Logger LOG = LoggerFactory.getLogger(Link.class);
 
+    private boolean listen = true;
     private Socket clientSock;
     private ObjectOutputStream objOut;
     private ObjectInputStream objIn;
@@ -54,6 +56,13 @@ public class Link {
     }
 
     public void listenForIncomingCommands() {
-
+        while(listen) {
+            try {
+                BaseMessage recvMessage = (BaseMessage) this.objIn.readObject();
+                recvMessage.executeMessage(this);
+            } catch (IOException | ClassNotFoundException e) {
+                LOG.error("", e);
+            }
+        }
     }
 }

@@ -103,7 +103,9 @@ public class Router {
         targetRouter.simulatedIPAddress = simulatedIP;
 
         // create a new link and connect to target router
-        this.ports[this.nextAvailPort] = Link.establishConnection(this.routerDesc, targetRouter);
+        Link newLink = Link.establishConnection(this.routerDesc, targetRouter);
+        this.ports[this.nextAvailPort] = newLink;
+        this.connectedPortsThreadPool.submit(newLink::listenForIncomingCommands);
 
         this.nextAvailPort++;
     }
