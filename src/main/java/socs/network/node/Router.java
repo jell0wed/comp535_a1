@@ -2,19 +2,28 @@ package socs.network.node;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import socs.network.message.SOSPFPacket;
 import socs.network.util.Configuration;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class Router {
     private static final Logger LOG = LoggerFactory.getLogger(Router.class);
 
-    protected ServerSocket routerSock;
+    private ExecutorService connectedPortsThreadPool = Executors.newFixedThreadPool(10);
+    private Thread incomingConnectionThread;
+    private ServerSocket routerSock;
+    private ObjectOutputStream objOut;
+    private ObjectInputStream objIn;
+
     protected LinkStateDatabase lsd;
+    private int nextAvailPort = 0;
+    private boolean listen = true;
     RouterDescription routerDesc = new RouterDescription();
     Link[] ports = new Link[4]; //assuming that all routers are with 4 ports
 
@@ -25,6 +34,9 @@ public class Router {
         routerDesc.simulatedIPAddress = config.getString("socs.network.router.ip");
 
         lsd = new LinkStateDatabase(routerDesc);
+
+        this.initializeSocket();
+        this.listenForIncomingConnection();
     }
 
     private void initializeSocket() {
@@ -34,6 +46,25 @@ public class Router {
         } catch (IOException e) {
             throw new RuntimeException("Unable to initializeSocket()", e);
         }
+    }
+
+    private void listenForIncomingConnection() {
+        this.incomingConnectionThread = new Thread(() -> {
+            while(listen) {
+                try {
+                    Socket clientSock = (Router.this).routerSock.accept();
+
+                    Link newLink = Link.incomingConnection(clientSock, (Router.this).routerDesc);
+                    (Router.this).ports[(Router.this).nextAvailPort] = newLink;
+
+                    (Router.this).connectedPortsThreadPool.submit(newLink::listenForIncomingCommands);
+
+                    (Router.this).nextAvailPort++;
+                } catch (IOException e) {
+                    LOG.error("Exception while accepting client socket", e);
+                }
+            }
+        });
     }
 
     /**
@@ -70,12 +101,30 @@ public class Router {
         targetRouter.processIPAddress = processIP;
         targetRouter.processPortNumber = processPort;
         targetRouter.simulatedIPAddress = simulatedIP;
+
+        // create a new link and connect to target router
+        this.ports[this.nextAvailPort] = Link.establishConnection(this.routerDesc, targetRouter);
+
+        this.nextAvailPort++;
     }
 
     /**
      * broadcast Hello to neighbors
      */
     private void processStart() {
+        // broadcast HELLO to every neighbors
+        for(int i = 0; i < this.nextAvailPort; i++) {
+            SOSPFPacket helloPak = new SOSPFPacket();
+            helloPak.srcProcessIP = this.routerDesc.processIPAddress;
+            helloPak.srcProcessPort = this.routerDesc.processPortNumber;
+            helloPak.srcIP = this.routerDesc.simulatedIPAddress;
+            helloPak.dstIP = this.ports[i].toRouter.simulatedIPAddress;
+            helloPak.sospfType = SOSPFPacket.SOSPFPacketType.HELLO;
+            helloPak.routerID = this.ports[i].toRouter.simulatedIPAddress;
+            helloPak.neighborID = this.routerDesc.simulatedIPAddress;
+            helloPak.lsaArray = null;
+        }
+
 
     }
 
