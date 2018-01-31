@@ -14,6 +14,7 @@ public class Link {
     private Socket clientSock;
     private ObjectOutputStream objOut;
     private ObjectInputStream objIn;
+    private Router localRouter;
 
     RouterDescription fromRouter;
     RouterDescription toRouter;
@@ -47,12 +48,18 @@ public class Link {
         LOG.debug("Initialized client socket to {}", this.toRouter);
     }
 
-    public static Link incomingConnection(Socket clientSock, RouterDescription to) {
-        return new Link(to, clientSock);
+    public static Link incomingConnection(Socket clientSock, Router to) {
+        Link newLink = new Link(to.routerDesc, clientSock);
+        newLink.localRouter = to;
+
+        return newLink;
     }
 
-    public static Link establishConnection(RouterDescription from, RouterDescription to) {
-        return new Link(from, to);
+    public static Link establishConnection(Router from, RouterDescription to) {
+        Link newLink = new Link(from.routerDesc, to);
+        newLink.localRouter = from;
+
+        return newLink;
     }
 
     public void listenForIncomingCommands() {
@@ -64,5 +71,9 @@ public class Link {
                 LOG.error("", e);
             }
         }
+    }
+
+    public Router getLocalRouter() {
+        return this.localRouter;
     }
 }

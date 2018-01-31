@@ -54,7 +54,7 @@ public class Router {
                 try {
                     Socket clientSock = (Router.this).routerSock.accept();
 
-                    Link newLink = Link.incomingConnection(clientSock, (Router.this).routerDesc);
+                    Link newLink = Link.incomingConnection(clientSock, (Router.this));
                     (Router.this).ports[(Router.this).nextAvailPort] = newLink;
 
                     (Router.this).connectedPortsThreadPool.submit(newLink::listenForIncomingCommands);
@@ -103,7 +103,7 @@ public class Router {
         targetRouter.simulatedIPAddress = simulatedIP;
 
         // create a new link and connect to target router
-        Link newLink = Link.establishConnection(this.routerDesc, targetRouter);
+        Link newLink = Link.establishConnection(this, targetRouter);
         this.ports[this.nextAvailPort] = newLink;
         this.connectedPortsThreadPool.submit(newLink::listenForIncomingCommands);
 
