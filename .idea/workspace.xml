@@ -2,20 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="68b50a78-2bbe-4ea1-89aa-20ba15f37737" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/socs/network/node/RouterDescriptionDatabase.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/socs/network/node/RouterDescriptionDatabase.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/socs/network/message/HELLOMessage.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/socs/network/Main.class" afterPath="$PROJECT_DIR$/target/classes/socs/network/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/socs/network/message/BaseMessage.class" afterPath="$PROJECT_DIR$/target/classes/socs/network/message/BaseMessage.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/socs/network/node/Link.class" afterPath="$PROJECT_DIR$/target/classes/socs/network/node/Link.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/socs/network/node/Router.class" afterPath="$PROJECT_DIR$/target/classes/socs/network/node/Router.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/socs/network/node/RouterDescription.class" afterPath="$PROJECT_DIR$/target/classes/socs/network/node/RouterDescription.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/socs/network/Main.java" afterPath="$PROJECT_DIR$/src/main/java/socs/network/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/socs/network/message/BaseMessage.java" afterPath="$PROJECT_DIR$/src/main/java/socs/network/message/BaseMessage.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/socs/network/message/HELLOMessage.java" afterPath="$PROJECT_DIR$/src/main/java/socs/network/message/HELLOMessage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/socs/network/message/LinkDescription.java" afterPath="$PROJECT_DIR$/src/main/java/socs/network/message/LinkDescription.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/socs/network/message/SOSPFPacket.java" afterPath="$PROJECT_DIR$/src/main/java/socs/network/message/SOSPFPacket.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/socs/network/node/Link.java" afterPath="$PROJECT_DIR$/src/main/java/socs/network/node/Link.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/socs/network/node/LinkStateDatabase.java" afterPath="$PROJECT_DIR$/src/main/java/socs/network/node/LinkStateDatabase.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/socs/network/node/Router.java" afterPath="$PROJECT_DIR$/src/main/java/socs/network/node/Router.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/socs/network/node/RouterDescription.java" afterPath="$PROJECT_DIR$/src/main/java/socs/network/node/RouterDescription.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -38,14 +34,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Router.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Router.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/Router.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="116" column="54" lean-forward="false" selection-start-line="116" selection-start-column="54" selection-end-line="116" selection-end-column="54" />
+            <state relative-caret-position="400">
+              <caret line="230" column="8" lean-forward="false" selection-start-line="230" selection-start-column="8" selection-end-line="230" selection-end-column="8" />
               <folding>
-                <element signature="e#5399#5400#0" expanded="true" />
-                <element signature="e#5439#5440#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#7972#7973#0" expanded="true" />
+                <element signature="e#7998#7999#0" expanded="true" />
+                <element signature="e#8038#8039#0" expanded="true" />
+                <element signature="e#8097#8098#0" expanded="true" />
+                <element signature="e#8145#8146#0" expanded="true" />
+                <element signature="e#8178#8179#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -54,8 +55,8 @@
       <file leaf-file-name="Link.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/Link.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="78" column="67" lean-forward="false" selection-start-line="78" selection-start-column="67" selection-end-line="78" selection-end-column="67" />
+            <state relative-caret-position="15">
+              <caret line="64" column="12" lean-forward="false" selection-start-line="64" selection-start-column="12" selection-end-line="64" selection-end-column="12" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -63,12 +64,80 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RouterDescriptionDatabase.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/RouterDescriptionDatabase.java">
+      <file leaf-file-name="LinkDescription.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/message/LinkDescription.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="38" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="38" />
+            <state relative-caret-position="225">
+              <caret line="15" column="102" lean-forward="false" selection-start-line="15" selection-start-column="102" selection-end-line="15" selection-end-column="102" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LSA.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/message/LSA.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RouterDescription.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/RouterDescription.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="203">
+              <caret line="16" column="47" lean-forward="true" selection-start-line="16" selection-start-column="47" selection-end-line="16" selection-end-column="47" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1210#1211#0" expanded="true" />
+                <element signature="e#1249#1250#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LinkStateDatabase.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/LinkStateDatabase.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="344">
+              <caret line="49" column="22" lean-forward="false" selection-start-line="49" selection-start-column="22" selection-end-line="49" selection-end-column="22" />
+              <folding>
+                <element signature="e#1234#1235#0" expanded="true" />
+                <element signature="e#1293#1294#0" expanded="true" />
+                <element signature="e#1351#1352#0" expanded="true" />
+                <element signature="e#1402#1403#0" expanded="true" />
+                <element signature="e#1480#1481#0" expanded="true" />
+                <element signature="e#1536#1537#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SOSPFPacket.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/message/SOSPFPacket.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="148">
+              <caret line="80" column="159" lean-forward="false" selection-start-line="80" selection-start-column="159" selection-end-line="80" selection-end-column="159" />
+              <folding>
+                <element signature="e#415#416#0" expanded="true" />
+                <element signature="e#446#447#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BaseMessage.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/message/BaseMessage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="13" column="21" lean-forward="false" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="21" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -76,10 +145,10 @@
       <file leaf-file-name="HELLOMessage.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/message/HELLOMessage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="25" column="53" lean-forward="false" selection-start-line="25" selection-start-column="53" selection-end-line="25" selection-end-column="53" />
+            <state relative-caret-position="446">
+              <caret line="30" column="2" lean-forward="false" selection-start-line="30" selection-start-column="2" selection-end-line="30" selection-end-column="2" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#0#1281#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -98,6 +167,7 @@
     <findStrings>
       <find>attach</find>
       <find>getFrom</find>
+      <find>remoteRouterDes</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -111,16 +181,18 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/socs/network/message/SOSPFPacket.java" />
         <option value="$PROJECT_DIR$/src/main/java/socs/network/node/ClientRouterSession.java" />
         <option value="$PROJECT_DIR$/src/main/java/socs/network/node/RouterStatus.java" />
-        <option value="$PROJECT_DIR$/src/main/java/socs/network/message/BaseMessage.java" />
-        <option value="$PROJECT_DIR$/src/main/java/socs/network/node/Link.java" />
         <option value="$PROJECT_DIR$/src/main/java/socs/network/node/RouterDescription.java" />
         <option value="$PROJECT_DIR$/src/main/java/socs/network/Main.java" />
-        <option value="$PROJECT_DIR$/src/main/java/socs/network/message/HELLOMessage.java" />
         <option value="$PROJECT_DIR$/src/main/java/socs/network/node/RouterDescriptionDatabase.java" />
+        <option value="$PROJECT_DIR$/src/main/java/socs/network/message/HELLOMessage.java" />
+        <option value="$PROJECT_DIR$/src/main/java/socs/network/message/BaseMessage.java" />
+        <option value="$PROJECT_DIR$/src/main/java/socs/network/node/LinkStateDatabase.java" />
+        <option value="$PROJECT_DIR$/src/main/java/socs/network/message/LinkDescription.java" />
+        <option value="$PROJECT_DIR$/src/main/java/socs/network/node/Link.java" />
         <option value="$PROJECT_DIR$/src/main/java/socs/network/node/Router.java" />
+        <option value="$PROJECT_DIR$/src/main/java/socs/network/message/SOSPFPacket.java" />
       </list>
     </option>
   </component>
@@ -250,7 +322,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main_50001">
+  <component name="RunManager" selected="Application.Main_50000">
     <configuration name="Main_50000" type="Application" factoryName="Application" temporary="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -275,6 +347,20 @@
       <option name="MAIN_CLASS_NAME" value="socs.network.Main" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="50001 192.168.0.51" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="COMP535" />
+      <envs />
+    </configuration>
+    <configuration name="Main_50002" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="socs.network.Main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="50002 192.168.0.52" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -364,9 +450,10 @@
       <properties />
       <listeners />
     </configuration>
-    <list size="2">
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="Application.Main_50001" />
-      <item index="1" class="java.lang.String" itemvalue="Application.Main_50000" />
+      <item index="1" class="java.lang.String" itemvalue="Application.Main_50002" />
+      <item index="2" class="java.lang.String" itemvalue="Application.Main_50000" />
     </list>
     <recent_temporary>
       <list size="1">
@@ -386,15 +473,15 @@
       <updated>1517327521283</updated>
       <workItem from="1517327524202" duration="2806000" />
       <workItem from="1517355699826" duration="7408000" />
-      <workItem from="1517430027567" duration="4279000" />
+      <workItem from="1517430027567" duration="9909000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14493000" />
+    <option name="totallyTimeSpent" value="20123000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1920" height="1053" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="873" extended-state="6" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -405,11 +492,11 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32881" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2672234" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3277635" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32904884" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14323749" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19241774" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -451,8 +538,13 @@
         <state relative-caret-position="1515">
           <caret line="101" column="52" lean-forward="false" selection-start-line="101" selection-start-column="52" selection-end-line="101" selection-end-column="52" />
           <folding>
-            <element signature="e#5399#5400#0" expanded="true" />
-            <element signature="e#5439#5440#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#7972#7973#0" expanded="true" />
+            <element signature="e#7998#7999#0" expanded="true" />
+            <element signature="e#8038#8039#0" expanded="true" />
+            <element signature="e#8097#8098#0" expanded="true" />
+            <element signature="e#8145#8146#0" expanded="true" />
+            <element signature="e#8178#8179#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -472,7 +564,7 @@
         <state relative-caret-position="330">
           <caret line="25" column="28" lean-forward="false" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#0#1281#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -596,8 +688,13 @@
         <state relative-caret-position="345">
           <caret line="26" column="4" lean-forward="true" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="4" />
           <folding>
-            <element signature="e#5399#5400#0" expanded="true" />
-            <element signature="e#5439#5440#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#7972#7973#0" expanded="true" />
+            <element signature="e#7998#7999#0" expanded="true" />
+            <element signature="e#8038#8039#0" expanded="true" />
+            <element signature="e#8097#8098#0" expanded="true" />
+            <element signature="e#8145#8146#0" expanded="true" />
+            <element signature="e#8178#8179#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -647,18 +744,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/message/SOSPFPacket.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/RouterStatus.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+        <state relative-caret-position="120">
+          <caret line="8" column="10" lean-forward="false" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/message/LinkDescription.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        <state relative-caret-position="135">
+          <caret line="10" column="19" lean-forward="false" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/RouterDescriptionDatabase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="38" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="38" />
           <folding />
         </state>
       </provider>
@@ -671,85 +776,67 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/LinkStateDatabase.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/message/HELLOMessage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-192">
-          <caret line="14" column="9" lean-forward="false" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/RouterStatus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="10" lean-forward="false" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
-          <folding />
+        <state relative-caret-position="446">
+          <caret line="30" column="2" lean-forward="false" selection-start-line="30" selection-start-column="2" selection-end-line="30" selection-end-column="2" />
+          <folding>
+            <element signature="e#0#1281#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/message/BaseMessage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="11" lean-forward="false" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
+        <state relative-caret-position="195">
+          <caret line="13" column="21" lean-forward="false" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/LinkStateDatabase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="49" column="22" lean-forward="false" selection-start-line="49" selection-start-column="22" selection-end-line="49" selection-end-column="22" />
+          <folding>
+            <element signature="e#1234#1235#0" expanded="true" />
+            <element signature="e#1293#1294#0" expanded="true" />
+            <element signature="e#1351#1352#0" expanded="true" />
+            <element signature="e#1402#1403#0" expanded="true" />
+            <element signature="e#1480#1481#0" expanded="true" />
+            <element signature="e#1536#1537#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/RouterDescription.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="503">
-          <caret line="41" column="41" lean-forward="false" selection-start-line="41" selection-start-column="41" selection-end-line="41" selection-end-column="41" />
+        <state relative-caret-position="203">
+          <caret line="16" column="47" lean-forward="true" selection-start-line="16" selection-start-column="47" selection-end-line="16" selection-end-column="47" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1210#1211#0" expanded="true" />
             <element signature="e#1249#1250#0" expanded="true" />
-            <element signature="e#1313#1314#0" expanded="true" />
-            <element signature="e#1369#1370#0" expanded="true" />
-            <element signature="e#1410#1411#0" expanded="true" />
-            <element signature="e#1450#1451#0" expanded="true" />
-            <element signature="e#1513#1514#0" expanded="true" />
-            <element signature="e#1571#1572#0" expanded="true" />
-            <element signature="e#1616#1617#0" expanded="true" />
-            <element signature="e#1657#1658#0" expanded="true" />
-            <element signature="e#1725#1726#0" expanded="true" />
-            <element signature="e#1785#1786#0" expanded="true" />
-            <element signature="e#1835#1836#0" expanded="true" />
-            <element signature="e#1871#1872#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/message/LinkDescription.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="10" column="19" lean-forward="false" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/message/HELLOMessage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="53" lean-forward="false" selection-start-line="25" selection-start-column="53" selection-end-line="25" selection-end-column="53" />
+        <state relative-caret-position="225">
+          <caret line="15" column="102" lean-forward="false" selection-start-line="15" selection-start-column="102" selection-end-line="15" selection-end-column="102" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/RouterDescriptionDatabase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="38" lean-forward="false" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/Link.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="78" column="67" lean-forward="false" selection-start-line="78" selection-start-column="67" selection-end-line="78" selection-end-column="67" />
+        <state relative-caret-position="15">
+          <caret line="64" column="12" lean-forward="false" selection-start-line="64" selection-start-column="12" selection-end-line="64" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -758,11 +845,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/Router.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="116" column="54" lean-forward="false" selection-start-line="116" selection-start-column="54" selection-end-line="116" selection-end-column="54" />
+        <state relative-caret-position="400">
+          <caret line="230" column="8" lean-forward="false" selection-start-line="230" selection-start-column="8" selection-end-line="230" selection-end-column="8" />
           <folding>
-            <element signature="e#5399#5400#0" expanded="true" />
-            <element signature="e#5439#5440#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#7972#7973#0" expanded="true" />
+            <element signature="e#7998#7999#0" expanded="true" />
+            <element signature="e#8038#8039#0" expanded="true" />
+            <element signature="e#8097#8098#0" expanded="true" />
+            <element signature="e#8145#8146#0" expanded="true" />
+            <element signature="e#8178#8179#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/message/SOSPFPacket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="80" column="159" lean-forward="false" selection-start-line="80" selection-start-column="159" selection-end-line="80" selection-end-column="159" />
+          <folding>
+            <element signature="e#415#416#0" expanded="true" />
+            <element signature="e#446#447#0" expanded="true" />
           </folding>
         </state>
       </provider>

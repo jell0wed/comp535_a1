@@ -2,14 +2,17 @@ package socs.network.node;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import socs.network.message.HELLOMessage;
+import socs.network.message.LSA;
+import socs.network.message.LinkDescription;
 import socs.network.message.SOSPFPacket;
 import socs.network.util.Configuration;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,7 +28,6 @@ public class Router {
     protected LinkStateDatabase lsd;
     private int nextAvailPort = 0;
     private boolean listen = true;
-    private RouterDescriptionDatabase discoveredRouters = new RouterDescriptionDatabase();
 
     RouterDescription routerDesc = new RouterDescription();
     Link[] ports = new Link[4]; //assuming that all routers are with 4 ports
@@ -114,7 +116,23 @@ public class Router {
         this.ports[this.nextAvailPort] = newLink;
         this.connectedPortsThreadPool.submit(newLink::listenForIncomingCommands);
 
-        this.discoveredRouters.insertDiscoveredRouter(targetRouter);
+
+        // make sure an initial link is created
+        LSA currentRouterLSA = this.lsd.getDiscoveredRouter(this.routerDesc.simulatedIPAddress);
+        Optional<LinkDescription> targetLinkOpt = currentRouterLSA
+                .links
+                .stream()
+                .filter(x -> x.linkID.equalsIgnoreCase(targetRouter.simulatedIPAddress))
+                .findAny();
+        if(!targetLinkOpt.isPresent()) {
+            LinkDescription newLinkDesc = new LinkDescription();
+            newLinkDesc.linkID = targetRouter.simulatedIPAddress;
+            newLinkDesc.portNum = this.nextAvailPort;
+            newLinkDesc.tosMetrics = 99;
+            newLinkDesc.status = RouterStatus.INIT;
+
+            currentRouterLSA.links.add(newLinkDesc);
+        }
 
         this.nextAvailPort++;
     }
@@ -125,7 +143,8 @@ public class Router {
     private void processStart() {
         // broadcast HELLO to every neighbors
         for(int i = 0; i < this.nextAvailPort; i++) {
-            HELLOMessage helloPak = new HELLOMessage();
+
+            SOSPFPacket helloPak = SOSPFPacket.createHelloPak(this.routerDesc, this.ports[i].getRemoteRouterDesc());
 
             this.ports[i].send(helloPak);
         }
@@ -155,10 +174,6 @@ public class Router {
      */
     private void processQuit() {
 
-    }
-
-    public RouterDescriptionDatabase getDiscoveredRouters() {
-        return discoveredRouters;
     }
 
     public void terminal() {
@@ -203,4 +218,16 @@ public class Router {
         }
     }
 
+
+    public LinkStateDatabase getLinkStateDatabase() {
+        return lsd;
+    }
+
+    public int getPortNumber(Link l) {
+        return Arrays.asList(this.ports).indexOf(l);
+    }
+
+    public RouterDescription getRouterDesc() {
+        return routerDesc;
+    }
 }

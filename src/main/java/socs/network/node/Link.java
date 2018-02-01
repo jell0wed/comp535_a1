@@ -91,4 +91,8 @@ public class Link {
     public Router getLocalRouter() {
         return this.localRouter;
     }
+
+    public RouterDescription getRemoteRouterDesc() {
+        return remoteRouterDesc;
+    }
 }
