@@ -166,7 +166,9 @@ public class Router {
      * output the neighbors of the routers
      */
     private void processNeighbors() {
-
+        for(int i = 0; i < this.nextAvailPort; i++) {
+            System.out.println(this.ports[i].getRemoteRouterDesc().simulatedIPAddress);
+        }
     }
 
     /**
