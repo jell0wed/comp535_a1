@@ -82,6 +82,9 @@ public class Link {
                 }
 
                 recvMessage.executeMessage(this);
+            } catch (EOFException e) {
+                this.listen = false;
+                LOG.error("Remote socket has disconnected ...");
             } catch (IOException | ClassNotFoundException e) {
                 LOG.error("", e);
             }

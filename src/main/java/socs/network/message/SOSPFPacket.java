@@ -1,5 +1,7 @@
 package socs.network.message;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import socs.network.node.Link;
 import socs.network.node.RouterDescription;
 import socs.network.node.RouterStatus;
@@ -11,6 +13,7 @@ import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SOSPFPacket extends BaseMessage {
+    private static final Logger LOG = LoggerFactory.getLogger(SOSPFPacket.class);
     protected SOSPFPacket(RouterDescription from, RouterDescription to) {
         super(from, to);
     }
@@ -46,13 +49,7 @@ public class SOSPFPacket extends BaseMessage {
             return;
         }
 
-        /*if(!currentLink.getLocalRouter().getLinkStateDatabase().hasRouterBeenDiscovered(this.srcIP)) {
-            LSA fromLSA = new LSA();
-            fromLSA.linkStateID = this.srcIP;
-            fromLSA.links = new LinkedList<>();
-
-            currentLink.getLocalRouter().getLinkStateDatabase().updateDiscoveredRouter(this.srcIP, fromLSA);
-        }*/
+        LOG.info("received HELLO from {}", this.srcIP);
 
         LSA currentlyDiscoveredLSA = currentLink.getLocalRouter().getLinkStateDatabase().getDiscoveredRouter(currentLink.getLocalRouter().getRouterDesc().getSimulatedIPAddress());
         Optional<LinkDescription> foundDescOpt = currentlyDiscoveredLSA
