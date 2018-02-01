@@ -1,6 +1,5 @@
 package socs.network.message;
 
-import socs.network.node.Link;
 import socs.network.node.RouterStatus;
 
 import java.io.Serializable;
