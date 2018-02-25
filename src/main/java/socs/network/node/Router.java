@@ -5,17 +5,17 @@ import org.slf4j.LoggerFactory;
 import socs.network.message.LSA;
 import socs.network.message.LinkDescription;
 import socs.network.message.SOSPFPacket;
-import socs.network.util.Configuration;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 
 public class Router {
@@ -220,7 +220,6 @@ public class Router {
         }
     }
 
-
     public LinkStateDatabase getLinkStateDatabase() {
         return lsd;
     }
@@ -231,5 +230,9 @@ public class Router {
 
     public RouterDescription getRouterDesc() {
         return routerDesc;
+    }
+
+    public List<Link> getConnectedPorts() {
+        return Arrays.stream(this.ports).filter(Objects::nonNull).collect(Collectors.toList());
     }
 }

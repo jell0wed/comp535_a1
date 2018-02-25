@@ -6,6 +6,8 @@ import socs.network.message.BaseMessage;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Link {
     private static final Logger LOG = LoggerFactory.getLogger(Link.class);
@@ -16,6 +18,8 @@ public class Link {
     private ObjectInputStream objIn;
     private Router localRouter;
     private RouterDescription remoteRouterDesc;
+    private Map<String, BaseMessage> awaitingMessages = new HashMap<>();
+    private Map<String, BaseMessage> awaitingResponses = new HashMap<>();
 
     private Link(Router local, RouterDescription toRouter) {
         this.localRouter = local;
@@ -71,6 +75,27 @@ public class Link {
         }
     }
 
+    public BaseMessage sendAndWait(BaseMessage msg) {
+        try {
+            msg.from = this.localRouter.routerDesc;
+            msg.to = this.remoteRouterDesc;
+
+            this.objOut.writeObject(msg);
+            this.awaitingMessages.put(msg.seq, msg);
+
+            msg.seq.wait();
+
+            BaseMessage response = this.awaitingResponses.get(msg.seq);
+            this.awaitingMessages.remove(msg.seq);
+            this.awaitingResponses.remove(msg.seq);
+
+            return response;
+        } catch (IOException | InterruptedException e) {
+            LOG.error("", e);
+            throw new RuntimeException(e);
+        }
+    }
+
     public void listenForIncomingCommands() {
         while(listen) {
             try {
@@ -79,6 +104,11 @@ public class Link {
                 // if we still do not know the remote router yet...
                 if(this.remoteRouterDesc == null) {
                     this.remoteRouterDesc = recvMessage.from;
+                }
+
+                if(this.awaitingMessages.containsKey(recvMessage.seq)) {
+                    this.awaitingResponses.put(recvMessage.seq, recvMessage);
+                    this.awaitingMessages.get(recvMessage.seq).notifyAll();
                 }
 
                 recvMessage.executeMessage(this);
