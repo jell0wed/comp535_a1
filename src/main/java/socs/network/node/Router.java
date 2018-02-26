@@ -10,10 +10,7 @@ import socs.network.message.SOSPFPacket;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -234,6 +231,29 @@ public class Router {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public WeightedGraph contructWeightedGraph() {
+
+        Queue<WeightedGraph> queue = new LinkedList<>();
+        WeightedGraph root = new WeightedGraph(routerDesc.getSimulatedIPAddress(), 0, null);
+        queue.add(root);
+
+        while(!queue.isEmpty()) {
+            WeightedGraph currentNode = queue.poll();
+
+            // add children, update queue
+            LSA currentNodeLSA = lsd._store.get(currentNode.getValue());
+            for (LinkDescription link : currentNodeLSA.links) {
+                WeightedGraph childNode = new WeightedGraph(link.linkID, link.tosMetrics, currentNode);
+                if (!WeightedGraph.hasBeenVisited(childNode.getParent(), childNode.getValue())) {
+                    queue.add(childNode);
+                    currentNode.children.add(childNode);
+                }
+            }
+        }
+
+        return root;
     }
 
     public LinkStateDatabase getLinkStateDatabase() {

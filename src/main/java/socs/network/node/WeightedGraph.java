@@ -1,6 +1,7 @@
 package socs.network.node;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class WeightedGraph {
 
@@ -9,7 +10,7 @@ public class WeightedGraph {
     // link cost
     private final int cost;
     private final WeightedGraph parent;
-    private ArrayList<WeightedGraph> children = new ArrayList<>();
+    public ArrayList<WeightedGraph> children = new ArrayList<>();
 
     WeightedGraph(String value, int cost, WeightedGraph parent) {
         this.value = value;
@@ -25,17 +26,11 @@ public class WeightedGraph {
         return cost;
     }
 
-    public void addChild(WeightedGraph node) {
-        if (!hasBeenVisited(node.parent, node.value)) {
-            children.add(node);
-        }
+    public WeightedGraph getParent() {
+        return parent;
     }
 
-    public WeightedGraph getChild(int index) {
-        return children.get(index);
-    }
-
-    private boolean hasBeenVisited(WeightedGraph node, String target) {
+    public static boolean hasBeenVisited(WeightedGraph node, String target) {
         return node.value.equals(target) || node.cost != 0 && hasBeenVisited(node.parent, target);
     }
 }
