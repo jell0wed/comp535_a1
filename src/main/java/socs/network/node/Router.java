@@ -147,6 +147,20 @@ public class Router {
         }
     }
 
+    // broadcast LINKSTATE_UPDATE to all neighbours
+    public void synchronizeLSD() {
+        //TODO: sequence numbers for LSA's not taken into account here
+        for(int i = 0; i < this.nextAvailPort; i++) {
+
+            Vector<LSA> lsaVector = new Vector<>();
+            for (Map.Entry<String, LSA> entry : lsd._store.entrySet()) {
+                lsaVector.add(entry.getValue());
+            }
+            SOSPFPacket lsp = SOSPFPacket.createLSP(this.routerDesc, this.ports[i].getRemoteRouterDesc(), lsaVector);
+            this.ports[i].send(lsp);
+        }
+    }
+
     /**
      * attach the link to the remote router, which is identified by the given simulated ip;
      * to establish the connection via socket, you need to indentify the process IP and process Port;

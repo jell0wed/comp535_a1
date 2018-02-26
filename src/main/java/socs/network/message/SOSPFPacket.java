@@ -41,7 +41,7 @@ public class SOSPFPacket extends BaseMessage {
     //simulated IP address
     public String neighborID; //neighbor's simulated IP address
 
-    //used by LSAUPDATE
+    //used by LINKSTATE_UPDATE
     public Vector<LSA> lsaArray = null;
 
 
@@ -56,14 +56,24 @@ public class SOSPFPacket extends BaseMessage {
     }
 
     public void executeLSP(Link currentLink) {
-        //TODO: handle packets indicating LSD updates
-
+        /*
+            TODO: handle packets indicating LSD updates
+            im guessing we add entries inside of LinkStateDataBase HashMap
+            since the key is the simulatedIP, we can add one LSA for every router
+         */
         return;
     }
 
+    /*
+        TODO: after establishing two-way communication
+        1. create linkDescription for new link
+        2. add new link to LSA
+        3. share LSP with all neighbours (packed with LINKSTATE_UPDATE ype)
+    */
     public void executeHelloPacket(Link currentLink) {
         LOG.info("received HELLO from {}", this.srcIP);
 
+        // try to find link description in link state database
         LSA currentlyDiscoveredLSA = currentLink.getLocalRouter().getLinkStateDatabase().getDiscoveredRouter(currentLink.getLocalRouter().getRouterDesc().getSimulatedIPAddress());
         Optional<LinkDescription> foundDescOpt = currentlyDiscoveredLSA
                 .links
@@ -71,12 +81,15 @@ public class SOSPFPacket extends BaseMessage {
                 .filter(x -> x.linkID.equalsIgnoreCase(this.srcIP))
                 .findAny();
 
+        // if not found, create new link with INIT status
         if(!foundDescOpt.isPresent()) {
             LinkDescription fromLSAToHere = new LinkDescription();
             fromLSAToHere.linkID = this.srcIP;
             fromLSAToHere.portNum = currentLink.getLocalRouter().getPortNumber(currentLink);
-            // this should be updated with the weight of the connection
-            // maybe initialize with max value then let the LSAUPDATE messages fix that
+            /*
+                TODO: this should be updated with the weight of the connection
+                maybe initialize with max value then let the LSAUPDATE messages fix that
+             */
             fromLSAToHere.tosMetrics = Integer.MAX_VALUE;
             fromLSAToHere.updateStatus(RouterStatus.INIT);
 
@@ -85,13 +98,18 @@ public class SOSPFPacket extends BaseMessage {
             currentLink.send(SOSPFPacket.createHelloPak(this.to, this.from));
         } else {
             LinkDescription newDesc = foundDescOpt.get();
-            if(foundDescOpt.get().status == RouterStatus.INIT) { // update to TWO-WAY
+            // if link description already present in database
+            // and link is set to INIT, then set link to TWO-WAY
+            if(foundDescOpt.get().status == RouterStatus.INIT) {
                 newDesc.updateStatus(RouterStatus.TWO_WAY);
 
                 currentlyDiscoveredLSA.links.remove(foundDescOpt.get());
                 currentlyDiscoveredLSA.links.add(newDesc);
                 currentLink.getLocalRouter().getLinkStateDatabase().updateDiscoveredRouter(currentLink.getLocalRouter().getRouterDesc().getSimulatedIPAddress(), currentlyDiscoveredLSA);
                 currentLink.send(SOSPFPacket.createHelloPak(this.to, this.from));
+
+                // start the synchronization process
+                currentLink.getLocalRouter().synchronizeLSD();
             }
         }
     }
@@ -106,6 +124,21 @@ public class SOSPFPacket extends BaseMessage {
         pak.sospfType = SOSPFPacketType.HELLO;
         pak.routerID = to.getSimulatedIPAddress();
         pak.neighborID = from.getSimulatedIPAddress();
+
+        return pak;
+    }
+
+    public static SOSPFPacket createLSP(RouterDescription from, RouterDescription to, Vector<LSA> lsaArray) {
+        SOSPFPacket pak = new SOSPFPacket(from, to);
+
+        pak.srcProcessIP = from.getProcessIPAddress();
+        pak.srcProcessPort = from.getProcessPortNumber();
+        pak.srcIP = from.getSimulatedIPAddress();
+        pak.dstIP = to.getSimulatedIPAddress();
+        pak.sospfType = SOSPFPacketType.LINKSTATE_UPDATE;
+        pak.routerID = to.getSimulatedIPAddress();
+        pak.neighborID = from.getSimulatedIPAddress();
+        pak.lsaArray = lsaArray;
 
         return pak;
     }
