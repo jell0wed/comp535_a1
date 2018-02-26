@@ -70,18 +70,12 @@ public class WeightedGraph {
 
     private static void findMinimalDistances(WeightedGraph node) {
         for (WeightedGraph target : node.children) {
-            if (isSettled(target))
-                continue;
-            if (getShortestDistance(target) > getShortestDistance(node) + target.cost) {
+            if (!settledNodes.contains(target) && getShortestDistance(target) > getShortestDistance(node)+target.cost) {
                 distances.put(target, getShortestDistance(node) + target.cost);
                 predecessors.put(target, node);
                 unsettledNodes.add(target);
             }
         }
-    }
-
-    private static boolean isSettled(WeightedGraph node) {
-        return settledNodes.contains(node);
     }
 
     private static int getShortestDistance(WeightedGraph destination) {
@@ -92,9 +86,9 @@ public class WeightedGraph {
             return d;
     }
 
-    private static WeightedGraph getMinimum(HashSet<WeightedGraph> set) {
+    private static WeightedGraph getMinimum(HashSet<WeightedGraph> nodes) {
         WeightedGraph minimum = null;
-        for (WeightedGraph node : set) {
+        for (WeightedGraph node : nodes) {
             if (minimum == null)
                 minimum = node;
             else if (getShortestDistance(node) < getShortestDistance(minimum))
