@@ -14,4 +14,8 @@ public class Path implements Serializable {
         this.next = p;
         this.distance = n;
     }
+
+    public int getDistance() {
+        return distance;
+    }
 }

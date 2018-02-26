@@ -43,12 +43,24 @@ public class SOSPFPacket extends BaseMessage {
     //used by LSAUPDATE
     public Vector<LSA> lsaArray = null;
 
+
     @Override
     public void executeMessage(Link currentLink) {
-        if(this.sospfType != SOSPFPacketType.HELLO) {
+        if(this.sospfType == SOSPFPacketType.HELLO)
+            executeHelloPacket(currentLink);
+        else if (this.sospfType == SOSPFPacketType.LINKSTATE_UPDATE)
+            executeLSP(currentLink);
+        else
             return;
-        }
+    }
 
+    public void executeLSP(Link currentLink) {
+        //TODO: handle packets indicating LSD updates
+
+        return;
+    }
+
+    public void executeHelloPacket(Link currentLink) {
         LOG.info("received HELLO from {}", this.srcIP);
 
         LSA currentlyDiscoveredLSA = currentLink.getLocalRouter().getLinkStateDatabase().getDiscoveredRouter(currentLink.getLocalRouter().getRouterDesc().getSimulatedIPAddress());
