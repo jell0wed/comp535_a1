@@ -238,24 +238,25 @@ public class Router {
 
         Queue<WeightedGraph> queue = new LinkedList<>();
         WeightedGraph root = new WeightedGraph(routerDesc.getSimulatedIPAddress(), 0, null);
-        WeightedGraph previousNode = root;
-        LSA currentNodeLSA = lsd._store.get(routerDesc.getSimulatedIPAddress());
 
         // add children to queue
+        LSA currentNodeLSA = lsd._store.get(routerDesc.getSimulatedIPAddress());
         for (LinkDescription link : currentNodeLSA.links) {
-            queue.add(new WeightedGraph(link.linkID, link.tosMetrics, root));
+            WeightedGraph childNode = new WeightedGraph(link.linkID, link.tosMetrics, root)
+            queue.add(childNode);
+            root.addChild(childNode);
         }
 
         while(!queue.isEmpty()) {
             WeightedGraph currentNode = queue.poll();
-            previousNode.addChild(currentNode);
 
             // add current node's children to queue
             currentNodeLSA = lsd._store.get(currentNode.getValue());
             for (LinkDescription link : currentNodeLSA.links) {
-                queue.add(new WeightedGraph(link.linkID, link.tosMetrics, currentNode));
+                WeightedGraph childNode = new WeightedGraph(link.linkID, link.tosMetrics, currentNode);
+                queue.add(childNode);
+                currentNode.addChild(childNode);
             }
-            previousNode = currentNode;
         }
 
         return root;
