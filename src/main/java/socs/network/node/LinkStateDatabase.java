@@ -3,6 +3,7 @@ package socs.network.node;
 import socs.network.message.LSA;
 import socs.network.message.LinkDescription;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 public class LinkStateDatabase {
@@ -64,4 +65,7 @@ public class LinkStateDatabase {
         return sb.toString();
     }
 
+    public Collection<String> getDiscoveredRouters() {
+        return this._store.keySet();
+    }
 }

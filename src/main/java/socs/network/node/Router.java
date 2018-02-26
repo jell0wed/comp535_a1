@@ -3,6 +3,7 @@ package socs.network.node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import socs.network.message.LSA;
+import socs.network.message.LSAUpdate;
 import socs.network.message.LinkDescription;
 import socs.network.message.SOSPFPacket;
 
@@ -143,10 +144,25 @@ public class Router {
     private void processStart() {
         // broadcast HELLO to every neighbors
         for(int i = 0; i < this.nextAvailPort; i++) {
-
             SOSPFPacket helloPak = SOSPFPacket.createHelloPak(this.routerDesc, this.ports[i].getRemoteRouterDesc());
 
             this.ports[i].send(helloPak);
+        }
+    }
+
+    public void broadcastLSAUpdate() {
+        for(int i = 0; i < this.nextAvailPort; i++) {
+            for(String discoveredRouter: this.lsd.getDiscoveredRouters()) {
+                LSA currentLsa = this.lsd.getDiscoveredRouter(discoveredRouter);
+                LSAUpdate lsaUpdatePak = new LSAUpdate(currentLsa, this.routerDesc, this.ports[i].getRemoteRouterDesc());
+                this.ports[i].send(lsaUpdatePak);
+            }
+        }
+    }
+
+    public void broadcastLSAUpdate(LSAUpdate update) {
+        for(int i = 0; i < this.nextAvailPort; i++) {
+            this.ports[i].send(update);
         }
     }
 

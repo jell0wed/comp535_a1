@@ -77,6 +77,9 @@ public class SOSPFPacket extends BaseMessage {
                 currentlyDiscoveredLSA.links.add(newDesc);
                 currentLink.getLocalRouter().getLinkStateDatabase().updateDiscoveredRouter(currentLink.getLocalRouter().getRouterDesc().getSimulatedIPAddress(), currentlyDiscoveredLSA);
                 currentLink.send(SOSPFPacket.createHelloPak(this.to, this.from));
+
+                // broadcast LSA update
+                currentLink.getLocalRouter().broadcastLSAUpdate();
             }
         }
     }
