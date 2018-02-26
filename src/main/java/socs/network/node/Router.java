@@ -242,7 +242,7 @@ public class Router {
         // add children to queue
         LSA currentNodeLSA = lsd._store.get(routerDesc.getSimulatedIPAddress());
         for (LinkDescription link : currentNodeLSA.links) {
-            WeightedGraph childNode = new WeightedGraph(link.linkID, link.tosMetrics, root)
+            WeightedGraph childNode = new WeightedGraph(link.linkID, link.tosMetrics, root);
             queue.add(childNode);
             root.addChild(childNode);
         }
