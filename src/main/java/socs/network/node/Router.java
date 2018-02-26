@@ -7,6 +7,7 @@ import socs.network.message.LinkDescription;
 import socs.network.message.SOSPFPacket;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
@@ -231,25 +232,34 @@ public class Router {
     }
 
     // to be used on final link state databases
-    public WeightedGraph constructWeightedGraph() {
-        WeightedGraph weightedGraph = new WeightedGraph();
-        // update the myID string array representing simulatedIP for each vertex
-        weightedGraph.myID[0] = routerDesc.getSimulatedIPAddress();
-        int index = 1;
-        for (Map.Entry<String, LSA> entry : lsd._store.entrySet()) {
-            weightedGraph.myID[index++] = entry.getKey();
-        }
-        // update the edge weights
-        for (Map.Entry<String, LSA> entry : lsd._store.entrySet()) {
-            int firstIndex = Arrays.asList(weightedGraph.myID).indexOf(routerDesc.getSimulatedIPAddress());
-            int secondIndex = Arrays.asList(weightedGraph.myID).indexOf(entry.getKey());
-            for (LinkDescription linkDescription : entry.getValue().links) {
-                weightedGraph.edges[firstIndex][secondIndex] = linkDescription.tosMetrics;
-            }
-        }
-        return weightedGraph;
-    }
+    // constructs weighted graph using BFS
+    // WeightedGraph class does not allow duplicate values along a path
+    public WeightedGraph contructWeightedGraph() {
 
+        Queue<WeightedGraph> queue = new LinkedList<>();
+        WeightedGraph root = new WeightedGraph(routerDesc.getSimulatedIPAddress(), 0, null);
+        WeightedGraph previousNode = root;
+        LSA currentNodeLSA = lsd._store.get(routerDesc.getSimulatedIPAddress());
+
+        // add children to queue
+        for (LinkDescription link : currentNodeLSA.links) {
+            queue.add(new WeightedGraph(link.linkID, link.tosMetrics, root));
+        }
+
+        while(!queue.isEmpty()) {
+            WeightedGraph currentNode = queue.poll();
+            previousNode.addChild(currentNode);
+
+            // add current node's children to queue
+            currentNodeLSA = lsd._store.get(currentNode.getValue());
+            for (LinkDescription link : currentNodeLSA.links) {
+                queue.add(new WeightedGraph(link.linkID, link.tosMetrics, currentNode));
+            }
+            previousNode = currentNode;
+        }
+
+        return root;
+    }
     public LinkStateDatabase getLinkStateDatabase() {
         return lsd;
     }
