@@ -3,6 +3,7 @@ package socs.network.message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import socs.network.node.Link;
+import socs.network.node.LinkStateDatabase;
 import socs.network.node.RouterDescription;
 import socs.network.node.RouterStatus;
 
@@ -74,7 +75,9 @@ public class SOSPFPacket extends BaseMessage {
             LinkDescription fromLSAToHere = new LinkDescription();
             fromLSAToHere.linkID = this.srcIP;
             fromLSAToHere.portNum = currentLink.getLocalRouter().getPortNumber(currentLink);
-            fromLSAToHere.tosMetrics = 99;
+            // this should be updated with the weight of the connection
+            // maybe initialize with max value then let the LSAUPDATE messages fix that
+            fromLSAToHere.tosMetrics = Integer.MAX_VALUE;
             fromLSAToHere.updateStatus(RouterStatus.INIT);
 
             currentlyDiscoveredLSA.links.add(fromLSAToHere);

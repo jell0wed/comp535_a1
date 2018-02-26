@@ -9,10 +9,7 @@ import socs.network.message.SOSPFPacket;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -128,7 +125,7 @@ public class Router {
             LinkDescription newLinkDesc = new LinkDescription();
             newLinkDesc.linkID = targetRouter.simulatedIPAddress;
             newLinkDesc.portNum = this.nextAvailPort;
-            newLinkDesc.tosMetrics = 99;
+            newLinkDesc.tosMetrics = weight;
             newLinkDesc.status = RouterStatus.INIT;
 
             currentRouterLSA.links.add(newLinkDesc);
@@ -218,6 +215,26 @@ public class Router {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // to be used on final link state databases
+    public WeightedGraph constructWeightedGraph() {
+        WeightedGraph weightedGraph = new WeightedGraph();
+        // update the myID string array representing simulatedIP for each vertex
+        weightedGraph.myID[0] = routerDesc.getSimulatedIPAddress();
+        int index = 1;
+        for (Map.Entry<String, LSA> entry : lsd._store.entrySet()) {
+            weightedGraph.myID[index++] = entry.getKey();
+        }
+        // update the edge weights
+        for (Map.Entry<String, LSA> entry : lsd._store.entrySet()) {
+            int firstIndex = Arrays.asList(weightedGraph.myID).indexOf(routerDesc.getSimulatedIPAddress());
+            int secondIndex = Arrays.asList(weightedGraph.myID).indexOf(entry.getKey());
+            for (LinkDescription linkDescription : entry.getValue().links) {
+                weightedGraph.edges[firstIndex][secondIndex] = linkDescription.tosMetrics;
+            }
+        }
+        return weightedGraph;
     }
 
     public LinkStateDatabase getLinkStateDatabase() {
