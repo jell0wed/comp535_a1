@@ -11,6 +11,12 @@ public class LSAUpdate extends BaseMessage {
     public final String simIpOrigin;
     public final LSA update;
 
+    LSAUpdate(LSAUpdate lsa) {
+        super(lsa.from, lsa.to);
+        this.simIpOrigin = lsa.simIpOrigin;
+        this.update = lsa.update;
+    }
+
     public LSAUpdate(LSA lsa, RouterDescription from, RouterDescription to) {
         super(from, to);
         this.simIpOrigin = from.getSimulatedIPAddress();
@@ -24,9 +30,11 @@ public class LSAUpdate extends BaseMessage {
         if (!localDb.hasRouterBeenDiscovered(this.simIpOrigin)) {
             localDb.updateDiscoveredRouter(this.simIpOrigin, this.update); // update the local database
             LOG.info(" > Update local database with {}", this.simIpOrigin);
-        }
 
-        // forward to neibours
-        currentLink.getLocalRouter().broadcastLSAUpdate(this);
+            // forward to neighbours
+            currentLink.getLocalRouter().broadcastLSAUpdate(new LSAUpdate(this));
+        } else {
+            LOG.info(" > Already know about {}", this.simIpOrigin);
+        }
     }
 }

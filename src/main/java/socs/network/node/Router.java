@@ -81,7 +81,20 @@ public class Router {
      * @param destinationIP the ip adderss of the destination simulated router
      */
     private void processDetect(String destinationIP) {
+        WeightedGraph root = WeightedGraph.createFromLSD(this.routerDesc, this.lsd);
+        WeightedGraph target = WeightedGraph.getGraphNode(destinationIP);
 
+        if(target == null) {
+            LOG.info("No target found");
+            return;
+        }
+
+        List<WeightedGraph> path = root.getShortestPath(root, target);
+        if(path == null) {
+            LOG.info("No path found");
+        } else {
+            LOG.info("Path size is of {}", path.size());
+        }
     }
 
     /**
@@ -231,29 +244,6 @@ public class Router {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public WeightedGraph contructWeightedGraph() {
-
-        Queue<WeightedGraph> queue = new LinkedList<>();
-        WeightedGraph root = new WeightedGraph(routerDesc.getSimulatedIPAddress(), 0, null);
-        queue.add(root);
-
-        while(!queue.isEmpty()) {
-            WeightedGraph currentNode = queue.poll();
-
-            // add children, update queue
-            LSA currentNodeLSA = lsd._store.get(currentNode.getValue());
-            for (LinkDescription link : currentNodeLSA.links) {
-                WeightedGraph childNode = new WeightedGraph(link.linkID, link.tosMetrics, currentNode);
-                if (!WeightedGraph.hasBeenVisited(childNode.getParent(), childNode.getValue())) {
-                    queue.add(childNode);
-                    currentNode.children.add(childNode);
-                }
-            }
-        }
-
-        return root;
     }
 
     public LinkStateDatabase getLinkStateDatabase() {
