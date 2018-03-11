@@ -160,9 +160,9 @@ public class Router {
     private void processStart() {
         // broadcast HELLO to every neighbors
         for(int i = 0; i < this.nextAvailPort; i++) {
-            if(this.ports[i].getRemoteRouterDesc() == null) {
+            /*if(this.ports[i].getRemoteRouterDesc() == null) {
                 continue;
-            }
+            }*/
 
             SOSPFPacket helloPak = SOSPFPacket.createHelloPak(this.routerDesc, this.ports[i].getRemoteRouterDesc());
             this.ports[i].send(helloPak);

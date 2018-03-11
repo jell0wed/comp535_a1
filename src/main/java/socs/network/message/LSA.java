@@ -30,6 +30,7 @@ public class LSA implements Serializable {
     sb.append(linkStateID + ":").append(lsaSeqNumber + "\n");
     for (LinkDescription ld : links) {
       sb.append(ld);
+      sb.append("; ");
     }
     sb.append("\n");
     return sb.toString();

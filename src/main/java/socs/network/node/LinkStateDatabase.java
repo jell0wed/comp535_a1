@@ -3,11 +3,10 @@ package socs.network.node;
 import socs.network.message.LSA;
 import socs.network.message.LinkDescription;
 
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 public class LinkStateDatabase {
-
+    public static Set<String> receivedLSAUpdate = new TreeSet<>();
     //linkID => LSAInstance
     HashMap<String, LSA> _store = new HashMap<String, LSA>();
 
