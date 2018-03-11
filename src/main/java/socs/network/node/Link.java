@@ -45,7 +45,6 @@ public class Link {
 
     private void initializeSocket() throws IOException {
         this.objOut = new ObjectOutputStream(this.clientSock.getOutputStream());
-        this.objOut.flush();
         this.objIn = new ObjectInputStream(this.clientSock.getInputStream());
     }
 
@@ -69,6 +68,7 @@ public class Link {
             msg.from = this.localRouter.routerDesc;
             msg.to = this.remoteRouterDesc;
 
+            this.objOut.reset();
             this.objOut.writeObject(msg);
         } catch (IOException e) {
             LOG.error("", e);

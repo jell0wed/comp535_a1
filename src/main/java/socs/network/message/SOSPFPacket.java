@@ -62,7 +62,7 @@ public class SOSPFPacket extends BaseMessage {
             LinkDescription fromLSAToHere = new LinkDescription();
             fromLSAToHere.linkID = this.srcIP;
             fromLSAToHere.portNum = currentLink.getLocalRouter().getPortNumber(currentLink);
-            fromLSAToHere.tosMetrics = 99;
+            //fromLSAToHere.tosMetrics = 99;
             fromLSAToHere.updateStatus(RouterStatus.INIT);
 
             currentlyDiscoveredLSA.links.add(fromLSAToHere);
@@ -72,6 +72,7 @@ public class SOSPFPacket extends BaseMessage {
             LinkDescription newDesc = foundDescOpt.get();
             if(foundDescOpt.get().status == RouterStatus.INIT) { // update to TWO-WAY
                 newDesc.updateStatus(RouterStatus.TWO_WAY);
+                newDesc.tosMetrics = foundDescOpt.get().tosMetrics;
 
                 currentlyDiscoveredLSA.links.remove(foundDescOpt.get());
                 currentlyDiscoveredLSA.links.add(newDesc);

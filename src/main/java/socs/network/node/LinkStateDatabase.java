@@ -48,8 +48,18 @@ public class LinkStateDatabase {
         return this._store.get(simulatedIp);
     }
 
-    public void updateDiscoveredRouter(String simulatedIp, LSA updatedLSA) {
-        this._store.put(simulatedIp, updatedLSA);
+    public boolean updateDiscoveredRouter(String simulatedIp, LSA updatedLSA) {
+        boolean updated = false;
+        LSA existingLSA = this._store.get(simulatedIp);
+        if(existingLSA != null) {
+            updated = existingLSA.links.addAll(updatedLSA.links);
+        } else {
+            existingLSA = updatedLSA;
+            updated = true;
+        }
+
+        this._store.put(simulatedIp, existingLSA);
+        return updated;
     }
 
     public String toString() {

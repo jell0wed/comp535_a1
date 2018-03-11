@@ -8,6 +8,7 @@ import socs.network.node.RouterDescription;
 
 public class LSAUpdate extends BaseMessage {
     private static final Logger LOG = LoggerFactory.getLogger(LSAUpdate.class);
+
     public final String simIpOrigin;
     public final LSA update;
 
@@ -19,7 +20,7 @@ public class LSAUpdate extends BaseMessage {
 
     public LSAUpdate(LSA lsa, RouterDescription from, RouterDescription to) {
         super(from, to);
-        this.simIpOrigin = from.getSimulatedIPAddress();
+        this.simIpOrigin = lsa.linkStateID;
         this.update = lsa;
     }
 
@@ -27,14 +28,22 @@ public class LSAUpdate extends BaseMessage {
     public void executeMessage(Link currentLink) {
         LinkStateDatabase localDb = currentLink.getLocalRouter().getLinkStateDatabase();
 
-        if (!localDb.hasRouterBeenDiscovered(this.simIpOrigin)) {
-            localDb.updateDiscoveredRouter(this.simIpOrigin, this.update); // update the local database
-            LOG.info(" > Update local database with {}", this.simIpOrigin);
+        if(localDb.updateDiscoveredRouter(this.simIpOrigin, this.update)) {
+            currentLink.getLocalRouter().broadcastLSAUpdate(new LSAUpdate(this));
+        }
+
+        /*if (!localDb.hasRouterBeenDiscovered(this.simIpOrigin)) {
+
+            LOG.info(" > Discovered new router {}", this.simIpOrigin);
 
             // forward to neighbours
-            currentLink.getLocalRouter().broadcastLSAUpdate(new LSAUpdate(this));
         } else {
-            LOG.info(" > Already know about {}", this.simIpOrigin);
+            LOG.info("> Updating already discovered router {}", this.simIpOrigin);
+            localDb.updateDiscoveredRouter(this.simIpOrigin, this.update);
         }
+
+
+
+        lastReceivedSeqNumber = this.lsaSeqNumber;*/
     }
 }

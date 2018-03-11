@@ -139,7 +139,7 @@ public class Router {
             LinkDescription newLinkDesc = new LinkDescription();
             newLinkDesc.linkID = targetRouter.simulatedIPAddress;
             newLinkDesc.portNum = this.nextAvailPort;
-            newLinkDesc.tosMetrics = 99;
+            newLinkDesc.tosMetrics = weight;
             newLinkDesc.status = RouterStatus.INIT;
 
             currentRouterLSA.links.add(newLinkDesc);
