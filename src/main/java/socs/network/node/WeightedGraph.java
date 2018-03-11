@@ -176,4 +176,8 @@ public class WeightedGraph {
     public Vertex getVertex(String ip) {
         return this.visitedNodes.get(ip);
     }
+
+    public Edge getEdge(Vertex v, Vertex d) {
+        return this.edges.stream().filter(x -> x.source.equals(v) && x.destination.equals(d)).findAny().orElse(null);
+    }
 }

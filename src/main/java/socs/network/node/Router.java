@@ -96,10 +96,17 @@ public class Router {
         if(path == null) {
             LOG.info("No path found");
         } else {
+            WeightedGraph.Vertex from = null;
             StringBuilder pathBuild = new StringBuilder();
-            for(int i = 0; i < path.size(); i++) {
-                WeightedGraph.Vertex v = path.get(i);
-                pathBuild.append(v.value);
+
+            for(WeightedGraph.Vertex v : path) {
+                if(from != null) {
+                    WeightedGraph.Edge e = graph.getEdge(from, v);
+                    pathBuild.append(" ->(").append(e.cost).append(") ");
+                }
+
+                pathBuild.append(v.value + " ");
+                from = v;
             }
 
             LOG.info(pathBuild.toString());
