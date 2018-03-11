@@ -69,7 +69,7 @@ public class Link {
             msg.to = this.remoteRouterDesc;
 
             this.objOut.writeObject(msg);
-            this.objOut.reset();
+            this.objOut.reset(); // keep this line for god sakes
         } catch (IOException e) {
             LOG.error("", e);
         }
