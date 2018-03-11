@@ -63,13 +63,12 @@ public class Link {
         return newLink;
     }
 
-    public void send(BaseMessage msg) {
+    public synchronized void send(BaseMessage msg) {
         try {
             msg.from = this.localRouter.routerDesc;
             msg.to = this.remoteRouterDesc;
 
             this.objOut.writeObject(msg);
-            this.objOut.reset(); // keep this line for god sakes
         } catch (IOException e) {
             LOG.error("", e);
         }
