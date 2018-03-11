@@ -34,7 +34,7 @@ public class WeightedGraph {
             LSA nodeLSA = lsd.getDiscoveredRouter(node.value);
             for (LinkDescription link : nodeLSA.links) {
                 if(!visitedNodes.containsKey(link.linkID)) {
-                    WeightedGraph newNode = new WeightedGraph(link.linkID, link.tosMetrics);
+                    WeightedGraph newNode = new WeightedGraph(link.linkID, lsd.getBestDistanceForRouter(node.value, link.linkID));
                     queue.add(newNode);
                     node.connectedNodes.add(newNode);
 

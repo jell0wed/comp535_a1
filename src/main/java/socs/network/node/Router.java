@@ -94,9 +94,12 @@ public class Router {
             LOG.info("No path found");
         } else {
             StringBuilder pathBuild = new StringBuilder();
-            for(WeightedGraph g: path) {
+            for(int i = 0; i < path.size(); i++) {
+                WeightedGraph g = path.get(i);
+                if(i > 0) {
+                    pathBuild.append(" ->(").append(g.getCost()).append(") ");
+                }
                 pathBuild.append(g.getValue());
-                pathBuild.append(" ->(").append(g.getCost()).append(") ");
             }
 
             LOG.info(pathBuild.toString());

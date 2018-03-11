@@ -11,7 +11,7 @@ public class LinkDescription implements Serializable {
 
     public String linkID;
     public int portNum;
-    public int tosMetrics;
+    public int tosMetrics = Integer.MAX_VALUE;
     public RouterStatus status;
 
     public void updateStatus(RouterStatus newStatus) {
@@ -21,6 +21,18 @@ public class LinkDescription implements Serializable {
 
     public String toString() {
         return linkID + "," + portNum + "," + tosMetrics;
+    }
+
+    public void combine(LinkDescription desc) {
+        if(!this.linkID.equalsIgnoreCase(desc.linkID)) {
+            return;
+        }
+
+        if(this.tosMetrics < desc.tosMetrics) {
+            return;
+        }
+
+        this.tosMetrics = desc.tosMetrics;
     }
 
 }

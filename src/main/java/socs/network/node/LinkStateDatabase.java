@@ -4,6 +4,7 @@ import socs.network.message.LSA;
 import socs.network.message.LinkDescription;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class LinkStateDatabase {
     public static Set<String> receivedLSAUpdate = new TreeSet<>();
@@ -52,6 +53,11 @@ public class LinkStateDatabase {
         LSA existingLSA = this._store.get(simulatedIp);
         if(existingLSA != null) {
             updated = existingLSA.links.addAll(updatedLSA.links);
+            for (LinkDescription link : existingLSA.links) {
+                for(LinkDescription updatedLink : updatedLSA.links) {
+                    link.combine(updatedLink);
+                }
+            }
         } else {
             existingLSA = updatedLSA;
             updated = true;
@@ -59,6 +65,25 @@ public class LinkStateDatabase {
 
         this._store.put(simulatedIp, existingLSA);
         return updated;
+    }
+
+    public int getBestDistanceForRouter(String ipFrom, String ipTo) {
+        int bestDistance = Integer.MAX_VALUE;
+        LSA fromLSA = this._store.get(ipFrom);
+        LSA toLSA = this._store.get(ipTo);
+
+        Optional<Integer> minDistanceFrom = fromLSA.links.stream().filter(x -> x.linkID.equalsIgnoreCase(ipTo)).map(x -> x.tosMetrics).min(Integer::compareTo);
+        Optional<Integer> minDistanceTo = toLSA.links.stream().filter(x -> x.linkID.equalsIgnoreCase(ipFrom)).map(x -> x.tosMetrics).min(Integer::compareTo);
+
+        if(minDistanceFrom.isPresent()) {
+            bestDistance = Integer.min(bestDistance, minDistanceFrom.get());
+        }
+
+        if(minDistanceTo.isPresent()) {
+            bestDistance = Integer.min(bestDistance, minDistanceTo.get());
+        }
+
+        return bestDistance;
     }
 
     public String toString() {
