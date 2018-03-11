@@ -37,25 +37,10 @@ public class LSAUpdate extends BaseMessage {
         LinkStateDatabase localDb = currentLink.getLocalRouter().getLinkStateDatabase();
 
         if(!LinkStateDatabase.receivedLSAUpdate.contains(this.uid)) {
-            System.out.println("received : " + this.update);
             localDb.updateDiscoveredRouter(this.update.linkStateID, this.update);
             currentLink.getLocalRouter().broadcastLSAUpdate(new LSAUpdate(this));
 
             LinkStateDatabase.receivedLSAUpdate.add(this.uid);
         }
-
-        /*if (!localDb.hasRouterBeenDiscovered(this.simIpOrigin)) {
-
-            LOG.info(" > Discovered new router {}", this.simIpOrigin);
-
-            // forward to neighbours
-        } else {
-            LOG.info("> Updating already discovered router {}", this.simIpOrigin);
-            localDb.updateDiscoveredRouter(this.simIpOrigin, this.update);
-        }
-
-
-
-        lastReceivedSeqNumber = this.lsaSeqNumber;*/
     }
 }
