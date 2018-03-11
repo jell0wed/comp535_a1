@@ -93,7 +93,13 @@ public class Router {
         if(path == null) {
             LOG.info("No path found");
         } else {
-            LOG.info("Path size is of {}", path.size());
+            StringBuilder pathBuild = new StringBuilder();
+            for(WeightedGraph g: path) {
+                pathBuild.append(g.getValue());
+                pathBuild.append(" ->(").append(g.getCost()).append(") ");
+            }
+
+            LOG.info(pathBuild.toString());
         }
     }
 
@@ -154,8 +160,11 @@ public class Router {
     private void processStart() {
         // broadcast HELLO to every neighbors
         for(int i = 0; i < this.nextAvailPort; i++) {
-            SOSPFPacket helloPak = SOSPFPacket.createHelloPak(this.routerDesc, this.ports[i].getRemoteRouterDesc());
+            if(this.ports[i].getRemoteRouterDesc() == null) {
+                continue;
+            }
 
+            SOSPFPacket helloPak = SOSPFPacket.createHelloPak(this.routerDesc, this.ports[i].getRemoteRouterDesc());
             this.ports[i].send(helloPak);
         }
     }

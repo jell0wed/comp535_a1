@@ -40,8 +40,6 @@ public class SOSPFPacket extends BaseMessage {
     //simulated IP address
     public String neighborID; //neighbor's simulated IP address
 
-    //used by LSAUPDATE
-    public Vector<LSA> lsaArray = null;
 
     @Override
     public void executeMessage(Link currentLink) {

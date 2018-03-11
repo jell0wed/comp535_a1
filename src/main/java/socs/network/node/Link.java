@@ -68,31 +68,9 @@ public class Link {
             msg.from = this.localRouter.routerDesc;
             msg.to = this.remoteRouterDesc;
 
-            this.objOut.reset();
             this.objOut.writeObject(msg);
         } catch (IOException e) {
             LOG.error("", e);
-        }
-    }
-
-    public BaseMessage sendAndWait(BaseMessage msg) {
-        try {
-            msg.from = this.localRouter.routerDesc;
-            msg.to = this.remoteRouterDesc;
-
-            this.objOut.writeObject(msg);
-            this.awaitingMessages.put(msg.seq, msg);
-
-            msg.seq.wait();
-
-            BaseMessage response = this.awaitingResponses.get(msg.seq);
-            this.awaitingMessages.remove(msg.seq);
-            this.awaitingResponses.remove(msg.seq);
-
-            return response;
-        } catch (IOException | InterruptedException e) {
-            LOG.error("", e);
-            throw new RuntimeException(e);
         }
     }
 

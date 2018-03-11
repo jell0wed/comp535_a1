@@ -92,4 +92,12 @@ public class WeightedGraph {
 
         return Lists.reverse(shortestPath);
     }
+
+    public String getValue() {
+        return this.value;
+    }
+
+    public int getCost() {
+        return this.cost;
+    }
 }
