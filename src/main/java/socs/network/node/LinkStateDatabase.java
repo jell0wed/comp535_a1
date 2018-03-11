@@ -35,7 +35,7 @@ public class LinkStateDatabase {
         LinkDescription ld = new LinkDescription();
         ld.linkID = rd.simulatedIPAddress;
         ld.portNum = -1;
-        ld.tosMetrics = 0;
+        ld.tosMetrics = Integer.MAX_VALUE;
         lsa.links.add(ld);
         return lsa;
     }

@@ -8,96 +8,172 @@ import java.util.*;
 
 // used and modified dijkstra code from:  http://www.vogella.com/tutorials/JavaAlgorithmsDijkstra/article.html
 public class WeightedGraph {
-    private static HashMap<String, WeightedGraph> visitedNodes = new HashMap<>();
+    public static class Vertex {
+        public String value;
+        public Vertex(String val) {
+            this.value = val;
+        }
+    }
 
-    // simulatedIP for each vertex (router)
-    private final String value;
-    // link cost
-    private final int cost;
+    public static class Edge {
+        public Vertex source;
+        public Vertex destination;
+        public int cost;
 
-    private Set<WeightedGraph> connectedNodes = new HashSet<>();
+        public Edge(Vertex src, Vertex dst, int cost) {
+            this.source = src;
+            this.destination = dst;
+            this.cost = cost;
+        }
+    }
 
-    public WeightedGraph(String val, int cost) {
-        this.value = val;
-        this.cost = cost;
+    private final Set<Vertex> vertices = new TreeSet<>(Comparator.comparing(o -> o.value));
+    private final Set<Edge> edges = new HashSet<>();
+    private final HashMap<String, Vertex> visitedNodes = new HashMap<>();
+
+    private Set<Vertex> settledNodes;
+    private Set<Vertex> unSettledNodes;
+    private Map<Vertex, Vertex> predecessors;
+    private Map<Vertex, Integer> distance;
+
+    public WeightedGraph() {
+
     }
 
     public static WeightedGraph createFromLSD(RouterDescription localRouter, LinkStateDatabase lsd) {
-        visitedNodes = new HashMap<>();
-        Queue<WeightedGraph> queue = new LinkedList<>();
-        WeightedGraph root = new WeightedGraph(localRouter.getSimulatedIPAddress(), 0);
+        WeightedGraph graph = new WeightedGraph();
 
+        Queue<Vertex> queue = new LinkedList<>();
+        Vertex root = new Vertex(localRouter.getSimulatedIPAddress());
+
+        graph.vertices.add(root);
         queue.add(root);
 
         while(!queue.isEmpty()) {
-            WeightedGraph node = queue.poll();
+            Vertex node = queue.poll();
             LSA nodeLSA = lsd.getDiscoveredRouter(node.value);
             for (LinkDescription link : nodeLSA.links) {
-                if(!visitedNodes.containsKey(link.linkID)) {
-                    WeightedGraph newNode = new WeightedGraph(link.linkID, lsd.getBestDistanceForRouter(node.value, link.linkID));
+                if(!graph.visitedNodes.containsKey(link.linkID) && !link.linkID.equalsIgnoreCase(node.value)) {
+                    // create a vertex
+                    Vertex newNode = new Vertex(link.linkID);
+                    graph.vertices.add(newNode);
+
+                    // create an edge
+                    int bestDistance = Integer.min(lsd.getBestDistanceForRouter(node.value, newNode.value), lsd.getBestDistanceForRouter(newNode.value, node.value));
+                    Edge newEdge = new Edge(node, newNode, bestDistance);
+                    graph.edges.add(newEdge);
+
+                    Edge newEdge2 = new Edge(newNode, node, bestDistance);
+                    graph.edges.add(newEdge2);
+
+                    graph.visitedNodes.put(link.linkID, newNode);
                     queue.add(newNode);
-                    node.connectedNodes.add(newNode);
-
-                    visitedNodes.put(link.linkID, newNode);
                 }
             }
         }
 
-        return root;
+        return graph;
     }
 
-    public static WeightedGraph getGraphNode(String simulatedIp) {
-        return visitedNodes.get(simulatedIp);
+    public void execute(Vertex source) {
+        settledNodes = new HashSet<Vertex>();
+        unSettledNodes = new HashSet<Vertex>();
+        distance = new HashMap<Vertex, Integer>();
+        predecessors = new HashMap<Vertex, Vertex>();
+        distance.put(source, 0);
+        unSettledNodes.add(source);
+        while (unSettledNodes.size() > 0) {
+            Vertex node = getMinimum(unSettledNodes);
+            settledNodes.add(node);
+            unSettledNodes.remove(node);
+            findMinimalDistances(node);
+        }
     }
 
-    public List<WeightedGraph> getShortestPath(WeightedGraph root, WeightedGraph target) {
-        HashMap<WeightedGraph, Integer> distances = new HashMap<>();
-        HashMap<WeightedGraph, WeightedGraph> previous = new HashMap<>();
-        Set<WeightedGraph> vertices = new HashSet<>();
-        vertices.add(root);
-
-        for(WeightedGraph node: visitedNodes.values()) {
-            distances.put(node, Integer.MAX_VALUE);
-            previous.put(node, null);
-            vertices.add(node);
+    private void findMinimalDistances(Vertex node) {
+        List<Vertex> adjacentNodes = getNeighbors(node);
+        for (Vertex target : adjacentNodes) {
+            if (getShortestDistance(target) > getShortestDistance(node)
+                    + getDistance(node, target)) {
+                distance.put(target, getShortestDistance(node)
+                        + getDistance(node, target));
+                predecessors.put(target, node);
+                unSettledNodes.add(target);
+            }
         }
 
-        distances.put(root, 0);
+    }
 
-        while(!vertices.isEmpty()) {
-            WeightedGraph u = vertices.stream().sorted((o1, o2) -> Integer.compare(o1.cost, o2.cost)).findFirst().get();
-            // it must be the case that u is present
-            vertices.remove(u);
+    private int getDistance(Vertex node, Vertex target) {
+        for (Edge edge : edges) {
+            if (edge.source.equals(node)
+                    && edge.destination.equals(target)) {
+                return edge.cost;
+            }
+        }
+        throw new RuntimeException("Should not happen");
+    }
 
-            for(WeightedGraph v : u.connectedNodes) {
-                int alt = distances.get(u) + v.cost;
-                if(alt < distances.get(v)) {
-                    distances.put(v, alt);
-                    previous.put(v, u);
+    private List<Vertex> getNeighbors(Vertex node) {
+        List<Vertex> neighbors = new ArrayList<Vertex>();
+        for (Edge edge : edges) {
+            if (edge.source.equals(node)
+                    && !isSettled(edge.destination)) {
+                neighbors.add(edge.destination);
+            }
+        }
+        return neighbors;
+    }
+
+    private Vertex getMinimum(Set<Vertex> vertexes) {
+        Vertex minimum = null;
+        for (Vertex vertex : vertexes) {
+            if (minimum == null) {
+                minimum = vertex;
+            } else {
+                if (getShortestDistance(vertex) < getShortestDistance(minimum)) {
+                    minimum = vertex;
                 }
             }
         }
+        return minimum;
+    }
 
-        // get the path by traversing the previous map backwards
-        LinkedList<WeightedGraph> shortestPath = new LinkedList<>();
-        WeightedGraph currNode = target;
-        while(target != root) {
-            if(currNode == null) {
-                return Lists.reverse(shortestPath);
-            }
+    private boolean isSettled(Vertex vertex) {
+        return settledNodes.contains(vertex);
+    }
 
-            shortestPath.add(currNode);
-            currNode = previous.get(currNode);
+    private int getShortestDistance(Vertex destination) {
+        Integer d = distance.get(destination);
+        if (d == null) {
+            return Integer.MAX_VALUE;
+        } else {
+            return d;
         }
-
-        return Lists.reverse(shortestPath);
     }
 
-    public String getValue() {
-        return this.value;
+    /*
+     * This method returns the path from the source to the selected target and
+     * NULL if no path exists
+     */
+    public LinkedList<Vertex> getPath(Vertex target) {
+        LinkedList<Vertex> path = new LinkedList<Vertex>();
+        Vertex step = target;
+        // check if a path exists
+        if (predecessors.get(step) == null) {
+            return null;
+        }
+        path.add(step);
+        while (predecessors.get(step) != null) {
+            step = predecessors.get(step);
+            path.add(step);
+        }
+        // Put it into the correct order
+        Collections.reverse(path);
+        return path;
     }
 
-    public int getCost() {
-        return this.cost;
+    public Vertex getVertex(String ip) {
+        return this.visitedNodes.get(ip);
     }
 }

@@ -81,25 +81,25 @@ public class Router {
      * @param destinationIP the ip adderss of the destination simulated router
      */
     private void processDetect(String destinationIP) {
-        WeightedGraph root = WeightedGraph.createFromLSD(this.routerDesc, this.lsd);
-        WeightedGraph target = WeightedGraph.getGraphNode(destinationIP);
+        WeightedGraph graph = WeightedGraph.createFromLSD(this.routerDesc, this.lsd);
+        WeightedGraph.Vertex root = graph.getVertex(this.routerDesc.simulatedIPAddress);
+        WeightedGraph.Vertex target = graph.getVertex(destinationIP);
 
         if(target == null) {
             LOG.info("No target found");
             return;
         }
 
-        List<WeightedGraph> path = root.getShortestPath(root, target);
+        graph.execute(root);
+
+        List<WeightedGraph.Vertex> path = graph.getPath(target);
         if(path == null) {
             LOG.info("No path found");
         } else {
             StringBuilder pathBuild = new StringBuilder();
             for(int i = 0; i < path.size(); i++) {
-                WeightedGraph g = path.get(i);
-                if(i > 0) {
-                    pathBuild.append(" ->(").append(g.getCost()).append(") ");
-                }
-                pathBuild.append(g.getValue());
+                WeightedGraph.Vertex v = path.get(i);
+                pathBuild.append(v.value);
             }
 
             LOG.info(pathBuild.toString());

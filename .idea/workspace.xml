@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="68b50a78-2bbe-4ea1-89aa-20ba15f37737" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/socs/network/message/LinkDescription.java" afterPath="$PROJECT_DIR$/src/main/java/socs/network/message/LinkDescription.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/socs/network/node/Link.java" afterPath="$PROJECT_DIR$/src/main/java/socs/network/node/Link.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/socs/network/node/WeightedGraph.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/socs/network/node/LinkStateDatabase.java" afterPath="$PROJECT_DIR$/src/main/java/socs/network/node/LinkStateDatabase.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/socs/network/node/Router.java" afterPath="$PROJECT_DIR$/src/main/java/socs/network/node/Router.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/socs/network/node/WeightedGraph.java" afterPath="$PROJECT_DIR$/src/main/java/socs/network/node/WeightedGraph.java" />
@@ -19,43 +18,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SOSPFPacket.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/message/SOSPFPacket.java">
+      <file leaf-file-name="Router.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/Router.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="748">
-              <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LinkDescription.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/message/LinkDescription.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
-              <caret line="34" column="42" lean-forward="false" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="42" />
-              <folding>
-                <marker date="1520787990000" expanded="true" signature="576:583" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RouterStatus.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/RouterStatus.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="12" lean-forward="false" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Link.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/Link.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="71" column="32" lean-forward="true" selection-start-line="71" selection-start-column="32" selection-end-line="71" selection-end-column="32" />
+            <state relative-caret-position="230">
+              <caret line="95" column="0" lean-forward="false" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -66,30 +33,27 @@
       <file leaf-file-name="LinkStateDatabase.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/LinkStateDatabase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="85" column="28" lean-forward="false" selection-start-line="85" selection-start-column="28" selection-end-line="85" selection-end-column="28" />
+            <state relative-caret-position="874">
+              <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WeightedGraph.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="WeightedGraph.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/WeightedGraph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="36" column="129" lean-forward="false" selection-start-line="36" selection-start-column="129" selection-end-line="36" selection-end-column="129" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Router.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/Router.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
-              <caret line="83" column="0" lean-forward="false" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
+            <state relative-caret-position="264">
+              <caret line="66" column="46" lean-forward="false" selection-start-line="66" selection-start-column="46" selection-end-line="66" selection-end-column="46" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#404#405#0" expanded="true" />
+                <element signature="e#444#445#0" expanded="true" />
+                <element signature="e#4062#4070#0" expanded="true" />
+                <element signature="e#4764#4765#0" expanded="true" />
+                <element signature="e#4816#4817#0" expanded="true" />
+                <element signature="e#5270#5278#0" expanded="true" />
+                <element signature="e#5724#5725#0" expanded="true" />
+                <element signature="e#5772#5773#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -106,8 +70,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getFrom</find>
-      <find>remoteRouterDes</find>
       <find>neigh</find>
       <find>getLink</find>
       <find>hasRouterBeenDiscover</find>
@@ -130,12 +92,14 @@
       <find>detect</find>
       <find>reset</find>
       <find>accept</find>
-      <find>processDetect</find>
       <find>TWOa</find>
       <find>objIn</find>
       <find>processDEtec</find>
       <find>thread</find>
       <find>processDete</find>
+      <find>processDetect</find>
+      <find>g</find>
+      <find>execute</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -166,9 +130,9 @@
         <option value="$PROJECT_DIR$/src/main/java/socs/network/message/SOSPFPacket.java" />
         <option value="$PROJECT_DIR$/src/main/java/socs/network/message/LSAUpdate.java" />
         <option value="$PROJECT_DIR$/src/main/java/socs/network/message/LinkDescription.java" />
-        <option value="$PROJECT_DIR$/src/main/java/socs/network/node/Router.java" />
         <option value="$PROJECT_DIR$/src/main/java/socs/network/node/Link.java" />
         <option value="$PROJECT_DIR$/src/main/java/socs/network/node/LinkStateDatabase.java" />
+        <option value="$PROJECT_DIR$/src/main/java/socs/network/node/Router.java" />
         <option value="$PROJECT_DIR$/src/main/java/socs/network/node/WeightedGraph.java" />
       </list>
     </option>
@@ -301,7 +265,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main_50002">
+  <component name="RunManager" selected="Application.Main_50003">
     <configuration name="Main_50000" type="Application" factoryName="Application" temporary="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -340,6 +304,20 @@
       <option name="MAIN_CLASS_NAME" value="socs.network.Main" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="50002 192.168.0.52" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="COMP535" />
+      <envs />
+    </configuration>
+    <configuration name="Main_50003" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="socs.network.Main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="50003 192.168.0.53" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -429,10 +407,11 @@
       <properties />
       <listeners />
     </configuration>
-    <list size="3">
+    <list size="4">
       <item index="0" class="java.lang.String" itemvalue="Application.Main_50001" />
       <item index="1" class="java.lang.String" itemvalue="Application.Main_50002" />
-      <item index="2" class="java.lang.String" itemvalue="Application.Main_50000" />
+      <item index="2" class="java.lang.String" itemvalue="Application.Main_50003" />
+      <item index="3" class="java.lang.String" itemvalue="Application.Main_50000" />
     </list>
     <recent_temporary>
       <list size="1">
@@ -514,7 +493,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54800000" />
+    <option name="totallyTimeSpent" value="58192000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="873" extended-state="6" />
@@ -594,10 +573,10 @@
           <url>file://$PROJECT_DIR$/src/main/java/socs/network/node/Router.java</url>
           <line>83</line>
           <properties />
-          <option name="timeStamp" value="33" />
+          <option name="timeStamp" value="38" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="34" />
+      <option name="time" value="39" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -900,26 +879,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/LinkStateDatabase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="85" column="28" lean-forward="false" selection-start-line="85" selection-start-column="28" selection-end-line="85" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/WeightedGraph.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="36" column="129" lean-forward="false" selection-start-line="36" selection-start-column="129" selection-end-line="36" selection-end-column="129" />
+        <state relative-caret-position="874">
+          <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/Router.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
-          <caret line="83" column="0" lean-forward="false" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
+        <state relative-caret-position="230">
+          <caret line="95" column="0" lean-forward="false" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/socs/network/node/WeightedGraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="66" column="46" lean-forward="false" selection-start-line="66" selection-start-column="46" selection-end-line="66" selection-end-column="46" />
+          <folding>
+            <element signature="e#404#405#0" expanded="true" />
+            <element signature="e#444#445#0" expanded="true" />
+            <element signature="e#4062#4070#0" expanded="true" />
+            <element signature="e#4764#4765#0" expanded="true" />
+            <element signature="e#4816#4817#0" expanded="true" />
+            <element signature="e#5270#5278#0" expanded="true" />
+            <element signature="e#5724#5725#0" expanded="true" />
+            <element signature="e#5772#5773#0" expanded="true" />
           </folding>
         </state>
       </provider>
