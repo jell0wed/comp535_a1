@@ -53,11 +53,19 @@ public class WeightedGraph {
             Vertex node = queue.poll();
             LSA nodeLSA = lsd.getDiscoveredRouter(node.value);
             for (LinkDescription link : nodeLSA.links) {
-                if(!graph.visitedNodes.containsKey(link.linkID) && !link.linkID.equalsIgnoreCase(node.value)) {
+                Vertex newNode = null;
+                if(!graph.visitedNodes.containsKey(link.linkID)) {
                     // create a vertex
-                    Vertex newNode = new Vertex(link.linkID);
+                    newNode = new Vertex(link.linkID);
                     graph.vertices.add(newNode);
 
+                    graph.visitedNodes.put(link.linkID, newNode);
+                    queue.add(newNode);
+                } else{
+                    newNode = graph.visitedNodes.get(link.linkID);
+                }
+
+                if(!link.linkID.equalsIgnoreCase(node.value)) {
                     // create an edge
                     int bestDistance = Integer.min(lsd.getBestDistanceForRouter(node.value, newNode.value), lsd.getBestDistanceForRouter(newNode.value, node.value));
                     Edge newEdge = new Edge(node, newNode, bestDistance);
@@ -65,9 +73,6 @@ public class WeightedGraph {
 
                     Edge newEdge2 = new Edge(newNode, node, bestDistance);
                     graph.edges.add(newEdge2);
-
-                    graph.visitedNodes.put(link.linkID, newNode);
-                    queue.add(newNode);
                 }
             }
         }
