@@ -3,11 +3,14 @@ package socs.network.node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import socs.network.message.BaseMessage;
+import socs.network.message.LSAHeartbeat;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Link {
     private static final Logger LOG = LoggerFactory.getLogger(Link.class);
@@ -20,6 +23,7 @@ public class Link {
     private RouterDescription remoteRouterDesc;
     private Map<String, BaseMessage> awaitingMessages = new HashMap<>();
     private Map<String, BaseMessage> awaitingResponses = new HashMap<>();
+    private Timer heartbeatTimeout = new Timer();
 
     private Link(Router local, RouterDescription toRouter) {
         this.localRouter = local;
@@ -46,6 +50,14 @@ public class Link {
     private void initializeSocket() throws IOException {
         this.objOut = new ObjectOutputStream(this.clientSock.getOutputStream());
         this.objIn = new ObjectInputStream(this.clientSock.getInputStream());
+        this.heartbeatTimeout = new Timer();
+
+        this.heartbeatTimeout.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                (Link.this).heartbeatCheck();
+            }
+        }, 30 * 1000, 30 * 1000);
     }
 
     /* Establish a new link from the local router to an unknown remote router (incoming connection) */
@@ -94,6 +106,7 @@ public class Link {
             } catch (EOFException e) {
                 this.listen = false;
                 LOG.error("Remote socket has disconnected ...");
+                this.localRouter.kickNeighbor(this); // kick the client out
             } catch (IOException | ClassNotFoundException e) {
                 LOG.error("", e);
             }
@@ -106,5 +119,18 @@ public class Link {
 
     public RouterDescription getRemoteRouterDesc() {
         return remoteRouterDesc;
+    }
+
+    private void heartbeatCheck() {
+        LSAHeartbeat heartbeat = new LSAHeartbeat(this.localRouter.routerDesc, this.remoteRouterDesc, new TimerTask() {
+            @Override
+            public void run() {
+                // kick client
+                (Link.this).localRouter.kickNeighbor((Link.this));
+            }
+        });
+
+        this.send(heartbeat);
+        LOG.info("Sent heartbeat to " + this.remoteRouterDesc.simulatedIPAddress);
     }
 }

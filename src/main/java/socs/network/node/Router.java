@@ -223,6 +223,10 @@ public class Router {
 
     }
 
+    void kickNeighbor(Link l) {
+
+    }
+
     public void terminal() {
         try {
             InputStreamReader isReader = new InputStreamReader(System.in);
