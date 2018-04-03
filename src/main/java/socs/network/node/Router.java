@@ -117,7 +117,11 @@ public class Router {
      * @param portNumber the port number which the link attaches at
      */
     private void processDisconnect(short portNumber) {
-
+        Optional<Link> foundPort = Arrays.stream(this.ports).filter(x -> x != null && x.getRemoteRouterDesc().processPortNumber == portNumber).findAny();
+        if(foundPort.isPresent()) {
+            LOG.info("Disconnected neighbor on port " + portNumber);
+            this.kickNeighbor(foundPort.get());
+        }
     }
 
     /**
@@ -242,7 +246,8 @@ public class Router {
      */
     private void processConnect(String processIP, short processPort,
                                 String simulatedIP, short weight) {
-
+        this.processAttach(processIP, processPort, simulatedIP, weight);
+        this.processStart();
     }
 
     /**
@@ -259,7 +264,7 @@ public class Router {
      * disconnect with all neighbors and quit the program
      */
     private void processQuit() {
-
+        System.exit(0);
     }
 
 
