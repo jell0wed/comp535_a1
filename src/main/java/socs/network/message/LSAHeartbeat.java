@@ -34,13 +34,13 @@ public class LSAHeartbeat extends BaseMessage {
     @Override
     public void executeMessage(Link currentLink) {
         if(!this.isResponse) {
-            LOG.info("Received heartbeat from " + currentLink.getRemoteRouterDesc().getSimulatedIPAddress());
+            //LOG.info("Received heartbeat from " + currentLink.getRemoteRouterDesc().getSimulatedIPAddress());
             LSAHeartbeat resp = new LSAHeartbeat(this);
             resp.isResponse = true;
 
             currentLink.send(resp);
         } else {
-            LOG.info("Received heartbeat ack from " + currentLink.getRemoteRouterDesc().getSimulatedIPAddress());
+            //LOG.info("Received heartbeat ack from " + currentLink.getRemoteRouterDesc().getSimulatedIPAddress());
             if(!awaitingResponses.containsKey(this.heartbeatId)) {
                 return; // ignore, invalid heartbeat id
             }

@@ -88,7 +88,7 @@ public class LinkStateDatabase {
         LSA toLSA = this._store.get(ipTo);
 
         Optional<Integer> minDistanceFrom = fromLSA.links.stream().filter(x -> x.linkID.equalsIgnoreCase(ipTo)).map(x -> x.tosMetrics).min(Integer::compareTo);
-        Optional<Integer> minDistanceTo = toLSA.links.stream().filter(x -> x.linkID.equalsIgnoreCase(ipFrom)).map(x -> x.tosMetrics).min(Integer::compareTo);
+         Optional<Integer> minDistanceTo = toLSA.links.stream().filter(x -> x.linkID.equalsIgnoreCase(ipFrom)).map(x -> x.tosMetrics).min(Integer::compareTo);
 
         if(minDistanceFrom.isPresent()) {
             bestDistance = Integer.min(bestDistance, minDistanceFrom.get());

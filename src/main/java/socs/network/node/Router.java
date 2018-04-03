@@ -180,6 +180,7 @@ public class Router {
 
     public void broadcastLSAUpdate() {
         for(int i = 0; i < this.nextAvailPort; i++) {
+            if(this.ports[i] == null) { continue; }
             for(String discoveredRouter: this.lsd.getDiscoveredRouters()) {
                 LSA currentLsa = this.lsd.getDiscoveredRouter(discoveredRouter);
                 LSAUpdate lsaUpdatePak = new LSAUpdate(currentLsa, this.routerDesc, this.ports[i].getRemoteRouterDesc());
@@ -190,12 +191,14 @@ public class Router {
 
     public void broadcastLSAUpdate(LSAUpdate update) {
         for(int i = 0; i < this.nextAvailPort; i++) {
+            if(this.ports[i] == null) { continue; }
             this.ports[i].send(update);
         }
     }
 
     public void broadcastLSARemove(RouterDescription remove) {
         for(int i = 0; i < this.nextAvailPort; i++) {
+            if(this.ports[i] == null) { continue; }
             if(this.ports[i].getRemoteRouterDesc().simulatedIPAddress.equalsIgnoreCase(remove.simulatedIPAddress)) {
                 continue;
             }
@@ -206,6 +209,7 @@ public class Router {
 
     public void broadcastLSARemove(LSARemove remove) {
         for(int i = 0; i < this.nextAvailPort; i++) {
+            if(this.ports[i] == null) { continue; }
             if(this.ports[i].getRemoteRouterDesc().simulatedIPAddress.equalsIgnoreCase(remove.removeSimulatedIp)) {
                 continue;
             }
@@ -225,7 +229,8 @@ public class Router {
         l.heartbeatTimeout.cancel();
 
         // free from port list
-
+        int idx = Arrays.asList(this.ports).indexOf(l);
+        this.ports[idx] = null;
     }
 
     /**
@@ -245,6 +250,7 @@ public class Router {
      */
     private void processNeighbors() {
         for(int i = 0; i < this.nextAvailPort; i++) {
+            if(this.ports[i] == null) { continue; }
             System.out.println(this.ports[i].getRemoteRouterDesc().simulatedIPAddress);
         }
     }

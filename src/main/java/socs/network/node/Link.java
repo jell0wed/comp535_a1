@@ -126,7 +126,7 @@ public class Link {
         });
 
         this.send(heartbeat);
-        LOG.info("Sent heartbeat to " + this.remoteRouterDesc.simulatedIPAddress);
+        //LOG.info("Sent heartbeat to " + this.remoteRouterDesc.simulatedIPAddress);
     }
 
     void initializeHeartbeat() {
