@@ -2,10 +2,7 @@ package socs.network.node;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import socs.network.message.LSA;
-import socs.network.message.LSAUpdate;
-import socs.network.message.LinkDescription;
-import socs.network.message.SOSPFPacket;
+import socs.network.message.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -176,6 +173,8 @@ public class Router {
 
             SOSPFPacket helloPak = SOSPFPacket.createHelloPak(this.routerDesc, this.ports[i].getRemoteRouterDesc());
             this.ports[i].send(helloPak);
+
+            this.ports[i].initializeHeartbeat();
         }
     }
 
@@ -193,6 +192,40 @@ public class Router {
         for(int i = 0; i < this.nextAvailPort; i++) {
             this.ports[i].send(update);
         }
+    }
+
+    public void broadcastLSARemove(RouterDescription remove) {
+        for(int i = 0; i < this.nextAvailPort; i++) {
+            if(this.ports[i].getRemoteRouterDesc().simulatedIPAddress.equalsIgnoreCase(remove.simulatedIPAddress)) {
+                continue;
+            }
+
+            this.ports[i].send(new LSARemove(remove, this.routerDesc, this.ports[i].getRemoteRouterDesc()));
+        }
+    }
+
+    public void broadcastLSARemove(LSARemove remove) {
+        for(int i = 0; i < this.nextAvailPort; i++) {
+            if(this.ports[i].getRemoteRouterDesc().simulatedIPAddress.equalsIgnoreCase(remove.removeSimulatedIp)) {
+                continue;
+            }
+
+            this.ports[i].send(remove);
+        }
+    }
+
+    void kickNeighbor(Link l) {
+        // remove neighbor from lsa
+        this.lsd.removeDiscoveredRouter(l.getRemoteRouterDesc().simulatedIPAddress);
+        this.broadcastLSARemove(l.getRemoteRouterDesc());
+        this.shutdownLink(l);
+    }
+
+    void shutdownLink(Link l) {
+        l.heartbeatTimeout.cancel();
+
+        // free from port list
+
     }
 
     /**
@@ -223,9 +256,7 @@ public class Router {
 
     }
 
-    void kickNeighbor(Link l) {
 
-    }
 
     public void terminal() {
         try {

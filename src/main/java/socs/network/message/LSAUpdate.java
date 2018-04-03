@@ -14,7 +14,6 @@ import java.util.UUID;
 public class LSAUpdate extends BaseMessage {
     private static final Logger LOG = LoggerFactory.getLogger(LSAUpdate.class);
 
-
     public String uid = UUID.randomUUID().toString();
     public String simIpOrigin;
     public LSA update;

@@ -1,5 +1,6 @@
 package socs.network.node;
 
+import org.slf4j.LoggerFactory;
 import socs.network.message.LSA;
 import socs.network.message.LinkDescription;
 
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 
 public class LinkStateDatabase {
     public static Set<String> receivedLSAUpdate = new TreeSet<>();
+    public static Set<String> receivedLSARemove = new TreeSet<>();
     //linkID => LSAInstance
     HashMap<String, LSA> _store = new HashMap<String, LSA>();
 
@@ -65,6 +67,19 @@ public class LinkStateDatabase {
 
         this._store.put(simulatedIp, existingLSA);
         return updated;
+    }
+
+    public synchronized void removeDiscoveredRouter(String simulatedIp) {
+        LoggerFactory.getLogger("LSD").info("Removing " + simulatedIp);
+        if(this._store.containsKey(simulatedIp)) {
+            this._store.remove(simulatedIp);
+        }
+
+        for(String k: this._store.keySet()) {
+            LSA v = this._store.get(k);
+            v.links = v.links.stream().filter(x -> !x.linkID.equalsIgnoreCase(simulatedIp)).collect(Collectors.toSet());
+            this._store.put(k, v);
+        }
     }
 
     public int getBestDistanceForRouter(String ipFrom, String ipTo) {

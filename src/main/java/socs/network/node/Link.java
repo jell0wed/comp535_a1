@@ -23,7 +23,7 @@ public class Link {
     private RouterDescription remoteRouterDesc;
     private Map<String, BaseMessage> awaitingMessages = new HashMap<>();
     private Map<String, BaseMessage> awaitingResponses = new HashMap<>();
-    private Timer heartbeatTimeout = new Timer();
+    Timer heartbeatTimeout = new Timer();
 
     private Link(Router local, RouterDescription toRouter) {
         this.localRouter = local;
@@ -52,12 +52,7 @@ public class Link {
         this.objIn = new ObjectInputStream(this.clientSock.getInputStream());
         this.heartbeatTimeout = new Timer();
 
-        this.heartbeatTimeout.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                (Link.this).heartbeatCheck();
-            }
-        }, 30 * 1000, 30 * 1000);
+
     }
 
     /* Establish a new link from the local router to an unknown remote router (incoming connection) */
@@ -132,5 +127,14 @@ public class Link {
 
         this.send(heartbeat);
         LOG.info("Sent heartbeat to " + this.remoteRouterDesc.simulatedIPAddress);
+    }
+
+    void initializeHeartbeat() {
+        this.heartbeatTimeout.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                (Link.this).heartbeatCheck();
+            }
+        }, 30 * 1000, 30 * 1000);
     }
 }
