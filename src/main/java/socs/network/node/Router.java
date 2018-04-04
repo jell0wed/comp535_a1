@@ -116,11 +116,13 @@ public class Router {
      *
      * @param portNumber the port number which the link attaches at
      */
-    private void processDisconnect(short portNumber) {
+    private void processDisconnect(int portNumber) {
         Optional<Link> foundPort = Arrays.stream(this.ports).filter(x -> x != null && x.getRemoteRouterDesc().processPortNumber == portNumber).findAny();
         if(foundPort.isPresent()) {
             LOG.info("Disconnected neighbor on port " + portNumber);
             this.kickNeighbor(foundPort.get());
+        } else {
+            LOG.info("Unknown port number");
         }
     }
 
