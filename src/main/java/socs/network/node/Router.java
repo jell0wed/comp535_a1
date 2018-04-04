@@ -283,7 +283,7 @@ public class Router {
                     processDetect(cmdLine[1]);
                 } else if (command.startsWith("disconnect ")) {
                     String[] cmdLine = command.split(" ");
-                    processDisconnect(Short.parseShort(cmdLine[1]));
+                    processDisconnect(Integer.parseInt(cmdLine[1]));
                 } else if (command.startsWith("quit")) {
                     processQuit();
                 } else if (command.startsWith("attach ")) {
